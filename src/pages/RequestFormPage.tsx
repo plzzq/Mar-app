@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Component, useState, type ReactNode, type ErrorInfo } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { ArrowLeft, FileText, History, Info, Package, Plus, Save, Trash2, TriangleAlert } from "lucide-react";
@@ -114,14 +114,43 @@ export function RequestFormPage() {
   return (
     <>
       {header}
-      <RequestForm
-        key={analysis?.request.id ?? "new"}
-        mode={isEdit ? "edit" : "create"}
-        request={analysis?.request}
-        materials={materialsQuery.data}
-      />
+      <FormErrorBoundary>
+        <RequestForm
+          key={analysis?.request.id ?? "new"}
+          mode={isEdit ? "edit" : "create"}
+          request={analysis?.request}
+          materials={materialsQuery.data}
+        />
+      </FormErrorBoundary>
     </>
   );
+}
+
+class FormErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(error: Error) {
+    return { error };
+  }
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.error("[RequestFormPage] Erro no formulário:", error, info);
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div role="alert" className="rounded-lg border border-rose-300 bg-rose-50 p-6 text-center">
+          <p className="font-semibold text-rose-900">Não foi possível carregar o formulário</p>
+          <p className="mt-1 text-sm text-rose-800">{this.state.error.message}</p>
+          <Link to="/solicitacoes" className="mt-4 inline-block text-sm text-navy-700 underline">
+            Voltar para solicitações
+          </Link>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
 }
 
 function RequestForm({

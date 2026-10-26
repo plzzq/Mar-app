@@ -6,7 +6,6 @@ import { AnnouncerProvider } from "@/contexts/AnnouncerContext";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ToastProvider } from "@/contexts/ToastContext";
 import { DashboardPage } from "@/pages/DashboardPage";
-import { DemandsPage } from "@/pages/DemandsPage";
 import { HistoryPage } from "@/pages/HistoryPage";
 import { LoginPage } from "@/pages/LoginPage";
 import { MarIAPage } from "@/pages/MarIAPage";
@@ -52,7 +51,7 @@ export default function App() {
                   }
                 >
                   <Route index element={<DashboardPage />} />
-                  <Route path="demandas" element={<DemandsPage />} />
+                  <Route path="demandas" element={<Navigate to="/solicitacoes" replace />} />
                   <Route path="solicitacoes" element={<RequestsPage />} />
                   <Route path="solicitacoes/nova" element={<RequestFormPage />} />
                   <Route path="solicitacoes/:id" element={<RequestDetailPage />} />

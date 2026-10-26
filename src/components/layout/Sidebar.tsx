@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import {
   BarChart3,
   ClipboardList,
-  Factory,
   History,
   LayoutDashboard,
   PackageCheck,
@@ -30,7 +29,6 @@ interface NavItem {
 
 export const NAV_ITEMS: NavItem[] = [
   { to: "/",             label: "Visão geral",                icon: LayoutDashboard, end: true },
-  { to: "/demandas",     label: "Demandas de produção",       icon: Factory },
   { to: "/solicitacoes", label: "Solicitações de materiais",  icon: ClipboardList },
   { to: "/estoque",      label: "Estoque",                    icon: Warehouse },
   { to: "/separacao",    label: "Separação de materiais",     icon: PackageCheck },

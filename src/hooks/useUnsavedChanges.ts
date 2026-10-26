@@ -1,17 +1,10 @@
 import { useEffect } from "react";
-import { useBlocker } from "react-router-dom";
 
 /**
- * Alerta antes de sair com alterações não salvas:
- * - bloqueia a navegação interna (React Router) com diálogo nativo;
- * - avisa ao fechar/recarregar a aba (beforeunload).
+ * Alerta antes de fechar/recarregar a aba com alterações não salvas.
+ * Nota: useBlocker não é compatível com HashRouter, por isso usa apenas beforeunload.
  */
 export function useUnsavedChanges(dirty: boolean): void {
-  useBlocker(
-    ({ currentLocation, nextLocation }) =>
-      dirty && currentLocation.pathname !== nextLocation.pathname,
-  );
-
   useEffect(() => {
     if (!dirty) return;
     const onBeforeUnload = (event: BeforeUnloadEvent) => {

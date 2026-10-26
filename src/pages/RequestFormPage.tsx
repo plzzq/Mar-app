@@ -57,11 +57,11 @@ export function RequestFormPage() {
     />
   );
 
-  if (isEdit && (requestQuery.loading || materialsQuery.loading)) {
+  if (materialsQuery.loading || (isEdit && requestQuery.loading)) {
     return (
       <>
         {header}
-        <LoadingState label="Carregando solicitação…" rows={5} />
+        <LoadingState label={isEdit ? "Carregando solicitação…" : "Carregando formulário…"} rows={5} />
       </>
     );
   }

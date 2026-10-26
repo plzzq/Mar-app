@@ -15,6 +15,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { MarIAMark, MareLogo } from "@/components/common/MareLogo";
+import { usePermissions } from "@/hooks/usePermissions";
 import { cn } from "@/lib/utils";
 
 type NavIcon = LucideIcon | ComponentType<{ className?: string }>;
@@ -24,18 +25,19 @@ interface NavItem {
   label: string;
   icon: NavIcon;
   end?: boolean;
+  adminOnly?: boolean;
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { to: "/", label: "Visão geral", icon: LayoutDashboard, end: true },
-  { to: "/demandas", label: "Demandas de produção", icon: Factory },
-  { to: "/solicitacoes", label: "Solicitações de materiais", icon: ClipboardList },
-  { to: "/estoque", label: "Estoque", icon: Warehouse },
-  { to: "/separacao", label: "Separação de materiais", icon: PackageCheck },
-  { to: "/mar-ia", label: "Mar.IA", icon: MarIAMark },
-  { to: "/relatorios", label: "Relatórios e indicadores", icon: BarChart3 },
-  { to: "/historico", label: "Histórico e rastreabilidade", icon: History },
-  { to: "/configuracoes", label: "Configurações", icon: Settings },
+  { to: "/",             label: "Visão geral",                icon: LayoutDashboard, end: true },
+  { to: "/demandas",     label: "Demandas de produção",       icon: Factory },
+  { to: "/solicitacoes", label: "Solicitações de materiais",  icon: ClipboardList },
+  { to: "/estoque",      label: "Estoque",                    icon: Warehouse },
+  { to: "/separacao",    label: "Separação de materiais",     icon: PackageCheck },
+  { to: "/mar-ia",       label: "Mar.IA",                     icon: MarIAMark },
+  { to: "/relatorios",   label: "Relatórios e indicadores",   icon: BarChart3 },
+  { to: "/historico",    label: "Histórico e rastreabilidade", icon: History },
+  { to: "/configuracoes",label: "Configurações",              icon: Settings, adminOnly: true },
 ];
 
 interface SidebarProps {
@@ -59,6 +61,9 @@ function useIsDesktop(): boolean {
 
 export function Sidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMobile }: SidebarProps) {
   const isDesktop = useIsDesktop();
+  const { role } = usePermissions();
+  const isViewer = role === "leitura";
+  const visibleItems = NAV_ITEMS.filter((item) => !(item.adminOnly && isViewer));
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -100,7 +105,7 @@ export function Sidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMobil
 
         <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Navegação">
           <ul className="space-y-1">
-            {NAV_ITEMS.map((item) => {
+            {visibleItems.map((item) => {
               const Icon = item.icon;
               return (
                 <li key={item.to}>

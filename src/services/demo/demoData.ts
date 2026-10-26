@@ -21,10 +21,11 @@ import type {
 import { dateOffset, isoOffset } from "@/lib/utils";
 
 export const DEMO_USERS: UserProfile[] = [
-  { id: "user-ana-ribeiro", name: "Ana Paula Ribeiro", role: "Administradora do sistema", roleKey: "admin", sector: "Planejamento e Controle da Produção", email: "ana.ribeiro@exemplo.com.br", registration: "ADM-0001" },
-  { id: "user-rafael-teixeira", name: "Rafael Teixeira", role: "Analista de PCP", roleKey: "pcp", sector: "Planejamento e Controle da Produção", email: "rafael.teixeira@exemplo.com.br", registration: "PCP-0142" },
-  { id: "user-lucas-martins", name: "Lucas Martins", role: "Almoxarife", roleKey: "almoxarifado", sector: "Almoxarifado", email: "lucas.martins@exemplo.com.br", registration: "ALM-0207" },
-  { id: "user-fernanda-lima", name: "Fernanda Lima", role: "Líder de Produção", roleKey: "producao", sector: "Montagem de Coleiras e Guias", email: "fernanda.lima@exemplo.com.br", registration: "PRD-0331" },
+  { id: "user-ana-ribeiro",     name: "Ana Paula Ribeiro", role: "Administradora do sistema", roleKey: "admin",        sector: "Planejamento e Controle da Produção", email: "ana.ribeiro@exemplo.com.br",     registration: "ADM-0001" },
+  { id: "user-rafael-teixeira", name: "Rafael Teixeira",   role: "Analista de PCP",           roleKey: "pcp",          sector: "Planejamento e Controle da Produção", email: "rafael.teixeira@exemplo.com.br", registration: "PCP-0142" },
+  { id: "user-lucas-martins",   name: "Lucas Martins",     role: "Almoxarife",                roleKey: "almoxarifado", sector: "Almoxarifado",                        email: "lucas.martins@exemplo.com.br",   registration: "ALM-0207" },
+  { id: "user-fernanda-lima",   name: "Fernanda Lima",     role: "Líder de Produção",         roleKey: "producao",     sector: "Montagem de Coleiras e Guias",        email: "fernanda.lima@exemplo.com.br",   registration: "PRD-0331" },
+  { id: "user-visitante",       name: "Visitante",         role: "Somente leitura",           roleKey: "leitura",      sector: "—",                                  email: "visitante@exemplo.com.br",       registration: "VIS-0000" },
 ];
 
 export const DEMO_USER: UserProfile = DEMO_USERS[0];

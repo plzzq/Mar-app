@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/common/PageHeader";
 import { DemoBadge, KpiCard, ShortageAlert, type ShortageItem } from "@/components/common/Widgets";
 import { RequestCards, RequestTable } from "@/components/requests/RequestList";
 import { Card, CardHeader, EmptyState, ErrorState, LoadingState, Progress, buttonClasses } from "@/components/ui";
+import { usePermissions } from "@/hooks/usePermissions";
 import { useQuery } from "@/hooks/useQuery";
 import type { RequestAnalysis } from "@/lib/businessRules";
 import { buildDashboardMetrics } from "@/lib/metrics";
@@ -20,6 +21,7 @@ export function DashboardPage() {
     const [requests, materials, history] = await Promise.all([listRequests(), listMaterials(), listHistory()]);
     return { requests, materials, history };
   });
+  const { can } = usePermissions();
 
   const metrics = useMemo(() => (data ? buildDashboardMetrics(data.requests, data.materials) : null), [data]);
 
@@ -33,10 +35,12 @@ export function DashboardPage() {
         description="Situação operacional das solicitações, do estoque e da separação de materiais."
         actions={
           <>
-            <Link to="/solicitacoes/nova" className={buttonClasses("primary")}>
-              <Plus className="h-4 w-4" aria-hidden="true" />
-              Nova solicitação
-            </Link>
+            {can("request.create") && (
+              <Link to="/solicitacoes/nova" className={buttonClasses("primary")}>
+                <Plus className="h-4 w-4" aria-hidden="true" />
+                Nova solicitação
+              </Link>
+            )}
             <Link to="/estoque" className={buttonClasses("outline")}>
               <Warehouse className="h-4 w-4" aria-hidden="true" />
               Consultar estoque

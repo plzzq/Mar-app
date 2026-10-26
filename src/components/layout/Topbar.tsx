@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, Plus, Volume2, VolumeX } from "lucide-react";
+import { Eye, Menu, Plus, Volume2, VolumeX } from "lucide-react";
 import { MareMark } from "@/components/common/MareLogo";
 import { buttonClasses } from "@/components/ui";
+import { usePermissions } from "@/hooks/usePermissions";
 import { useSpeechSynthesis } from "@/hooks/useSpeech";
 import { canUseGlobalShortcut } from "@/lib/keyboard";
 import { cn } from "@/lib/utils";
@@ -15,6 +16,8 @@ interface TopbarProps {
 }
 
 export function Topbar({ onOpenMenu }: TopbarProps) {
+  const { role } = usePermissions();
+  const isViewer = role === "leitura";
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key !== "/") return;
@@ -51,9 +54,17 @@ export function Topbar({ onOpenMenu }: TopbarProps) {
 
         <div className="ml-auto flex items-center gap-1 sm:gap-1.5">
           <SpeakPageButton />
-          <Link to="/solicitacoes/nova" aria-label="Nova solicitação" className={buttonClasses("primary", "icon", "lg:hidden")}>
-            <Plus className="h-5 w-5" aria-hidden="true" />
-          </Link>
+          {isViewer && (
+            <span className="hidden items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700 sm:flex">
+              <Eye className="h-3.5 w-3.5" aria-hidden="true" />
+              Somente leitura
+            </span>
+          )}
+          {!isViewer && (
+            <Link to="/solicitacoes/nova" aria-label="Nova solicitação" className={buttonClasses("primary", "icon", "lg:hidden")}>
+              <Plus className="h-5 w-5" aria-hidden="true" />
+            </Link>
+          )}
           <NotificationsMenu />
           <ProfileMenu />
         </div>

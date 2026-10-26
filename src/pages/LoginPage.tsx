@@ -33,7 +33,7 @@ export function LoginPage() {
     formState: { errors, isSubmitting },
   } = useForm<LoginValues>({ defaultValues: { identifier: "", password: "" }, mode: "onTouched" });
 
-  const from = (location.state as { from?: string } | null)?.from ?? "/";
+  const from = "/";
 
   if (authenticated) return <Navigate to={from} replace />;
 

@@ -23,8 +23,8 @@ const QUICK_ACCESS = [
     icon: ShieldCheck,
     color: "text-navy-700",
     bg: "bg-navy-50 hover:bg-navy-100 border-navy-200",
-    identifier: "ana.ribeiro@exemplo.com.br",
-    password: "demo123",
+    identifier: "admin@mare.app",
+    password: null, // senha manual obrigatória
   },
   {
     label: "Visualizador",
@@ -32,8 +32,8 @@ const QUICK_ACCESS = [
     icon: EyeIcon,
     color: "text-slate-600",
     bg: "bg-slate-50 hover:bg-slate-100 border-slate-200",
-    identifier: "visitante@exemplo.com.br",
-    password: "demo123",
+    identifier: "visitante@mare.app",
+    password: "demo123", // entra automaticamente
   },
 ] as const;
 
@@ -70,11 +70,18 @@ export function LoginPage() {
     }
   };
 
-  const handleQuickAccess = async (identifier: string, password: string, label: string) => {
+  const handleQuickAccess = async (identifier: string, password: string | null, label: string) => {
     setSubmitError(null);
+    setValue("identifier", identifier);
+    if (password === null) {
+      // Admin: preenche só o e-mail e foca no campo de senha
+      setValue("password", "");
+      setTimeout(() => document.getElementById("password")?.focus(), 50);
+      return;
+    }
+    // Visitante: entra automaticamente
     setQuickLoading(label);
     try {
-      setValue("identifier", identifier);
       setValue("password", password);
       await doSignIn(identifier, password);
     } catch (error) {

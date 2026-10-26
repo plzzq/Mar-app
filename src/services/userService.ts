@@ -34,8 +34,9 @@ export async function switchActiveUser(userId: string): Promise<UserProfile> {
 }
 
 /**
- * Login. Com Supabase: Auth real. Sem: demonstração (qualquer
- * identificação válida + senha de 6+; senha "erro" simula falha).
+ * Login. Com Supabase: Auth real. Sem: demonstração com dois perfis fixos.
+ * - Admin: admin@mare.app / ADM-0001 + senha "lula13"
+ * - Visitante: qualquer identificador válido, qualquer senha de 6+ chars
  */
 export async function signIn(identifier: string, password: string): Promise<UserProfile> {
   const parsed = loginSchema.safeParse({ identifier, password });
@@ -66,11 +67,31 @@ export async function signIn(identifier: string, password: string): Promise<User
     setDemoState((s) => ({ ...s, user }));
     return { ...user };
   }
+
   await simulateLatency(900);
+
   if (password === "erro") {
     throw new Error("Não foi possível conectar ao serviço de autenticação. (Falha simulada na demonstração.)");
   }
-  return { ...getDemoState().user };
+
+  const state = getDemoState();
+  const id = identifier.trim().toLowerCase();
+  const adminUser  = state.users.find((u) => u.roleKey === "admin")!;
+  const visitorUser = state.users.find((u) => u.roleKey === "leitura")!;
+
+  // Admin: identificador é e-mail ou matrícula do admin, senha obrigatória "lula13"
+  const isAdminId = id === adminUser.email.toLowerCase() || id === adminUser.registration.toLowerCase();
+  if (isAdminId) {
+    if (password !== "lula13") {
+      throw new BusinessRuleError("Senha incorreta para o perfil Administrador.");
+    }
+    setDemoState((s) => ({ ...s, user: { ...adminUser } }));
+    return { ...adminUser };
+  }
+
+  // Visitante: qualquer outro identificador válido com 6+ chars na senha
+  setDemoState((s) => ({ ...s, user: { ...visitorUser } }));
+  return { ...visitorUser };
 }
 
 export async function signOutEverywhere(): Promise<void> {

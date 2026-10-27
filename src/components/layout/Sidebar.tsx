@@ -132,11 +132,6 @@ export function Sidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMobil
         </nav>
 
         <div className="space-y-3 border-t border-white/10 p-3">
-          {!collapsed && (
-            <p className="px-2 text-[11px] leading-snug text-sky-200/70">
-              Protótipo com dados de demonstração. Integrações reais serão configuradas posteriormente.
-            </p>
-          )}
           <button
             type="button"
             onClick={onToggleCollapsed}

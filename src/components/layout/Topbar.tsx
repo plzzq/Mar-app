@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Eye, Menu, Plus, Volume2, VolumeX } from "lucide-react";
-import { MareMark } from "@/components/common/MareLogo";
+import { Eye, Menu, Plus, Volume2, VolumeX } from "lucide-react";import { MareMark } from "@/components/common/MareLogo";
 import { buttonClasses } from "@/components/ui";
 import { usePermissions } from "@/hooks/usePermissions";
 import { useSpeechSynthesis } from "@/hooks/useSpeech";
@@ -18,6 +17,8 @@ interface TopbarProps {
 export function Topbar({ onOpenMenu }: TopbarProps) {
   const { role } = usePermissions();
   const isViewer = role === "leitura";
+  const { pathname } = useLocation();
+  const isOnNewRequest = pathname === "/solicitacoes/nova" || pathname.endsWith("/editar");
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key !== "/") return;
@@ -53,14 +54,14 @@ export function Topbar({ onOpenMenu }: TopbarProps) {
         </div>
 
         <div className="ml-auto flex items-center gap-1 sm:gap-1.5">
-          <SpeakPageButton />
+          <SpeakPageButton pathname={pathname} />
           {isViewer && (
             <span className="hidden items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700 sm:flex">
               <Eye className="h-3.5 w-3.5" aria-hidden="true" />
               Somente leitura
             </span>
           )}
-          {!isViewer && (
+          {!isViewer && !isOnNewRequest && (
             <Link to="/solicitacoes/nova" aria-label="Nova solicitação" className={buttonClasses("primary", "icon", "lg:hidden")}>
               <Plus className="h-5 w-5" aria-hidden="true" />
             </Link>
@@ -78,9 +79,8 @@ export function Topbar({ onOpenMenu }: TopbarProps) {
 }
 
 /** Lê em voz alta o conteúdo principal da página (Web Speech API). */
-function SpeakPageButton() {
+function SpeakPageButton({ pathname }: { pathname: string }) {
   const { supported, speakingId, speak, stop } = useSpeechSynthesis();
-  const { pathname } = useLocation();
 
   useEffect(() => {
     stop();

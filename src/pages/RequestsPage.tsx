@@ -194,17 +194,17 @@ export function RequestsPage() {
       />
 
       {/* ── Abas internas ── */}
-      <div role="tablist" aria-label="Visualização das solicitações" className="mb-4 flex gap-1 rounded-xl border border-slate-200 bg-slate-100 p-1 w-fit">
+      <div role="tablist" aria-label="Visualização das solicitações" className="mb-4 flex gap-2 w-fit">
         <button
           type="button"
           role="tab"
           aria-selected={tab === "lista"}
           onClick={() => setTab("lista")}
           className={cn(
-            "flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-700",
+            "flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-700 border",
             tab === "lista"
-              ? "bg-white text-navy-900 shadow-sm"
-              : "text-slate-500 hover:text-slate-800",
+              ? "bg-navy-800 text-white border-navy-800 shadow-md"
+              : "bg-white text-slate-600 border-slate-300 hover:border-navy-400 hover:text-navy-800",
           )}
         >
           <ClipboardList className="h-4 w-4" aria-hidden="true" />
@@ -216,14 +216,14 @@ export function RequestsPage() {
           aria-selected={tab === "kanban"}
           onClick={() => setTab("kanban")}
           className={cn(
-            "flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-700",
+            "flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-700 border",
             tab === "kanban"
-              ? "bg-white text-navy-900 shadow-sm"
-              : "text-slate-500 hover:text-slate-800",
+              ? "bg-sky-600 text-white border-sky-600 shadow-md"
+              : "bg-white text-slate-600 border-slate-300 hover:border-sky-400 hover:text-sky-700",
           )}
         >
           <Factory className="h-4 w-4" aria-hidden="true" />
-          Demandas (Kanban)
+          Kanban
         </button>
       </div>
 

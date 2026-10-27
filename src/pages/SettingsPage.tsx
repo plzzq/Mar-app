@@ -265,7 +265,7 @@ export function SettingsPage() {
                   </p>
                 )}
                 {!testing && !testResults && (
-                  <EmptyState title="Nenhuma verificação executada" description="Clique em "Executar verificação" para testar os fluxos críticos do sistema." />
+                  <EmptyState title="Nenhuma verificação executada" description={'Clique em "Executar verificação" para testar os fluxos críticos do sistema.'} />
                 )}
                 {testResults && (
                   <ol className="space-y-2">

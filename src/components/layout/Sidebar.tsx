@@ -35,7 +35,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/mar-ia",       label: "Mar.IA",                     icon: MarIAMark },
   { to: "/relatorios",   label: "Relatórios e indicadores",   icon: BarChart3 },
   { to: "/historico",    label: "Histórico e rastreabilidade", icon: History },
-  { to: "/configuracoes",label: "Configurações",              icon: Settings, adminOnly: true },
+  { to: "/configuracoes",label: "Configurações",              icon: Settings },
 ];
 
 interface SidebarProps {

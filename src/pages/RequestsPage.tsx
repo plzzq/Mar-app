@@ -218,8 +218,8 @@ export function RequestsPage() {
           className={cn(
             "flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-700 border",
             tab === "kanban"
-              ? "bg-sky-600 text-white border-sky-600 shadow-md"
-              : "bg-white text-slate-600 border-slate-300 hover:border-sky-400 hover:text-sky-700",
+              ? "bg-navy-800 text-white border-navy-800 shadow-md"
+              : "bg-white text-slate-600 border-slate-300 hover:border-navy-400 hover:text-navy-800",
           )}
         >
           <Factory className="h-4 w-4" aria-hidden="true" />

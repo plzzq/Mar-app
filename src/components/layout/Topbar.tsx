@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Eye, Menu, Plus, Volume2, VolumeX } from "lucide-react";import { MareMark } from "@/components/common/MareLogo";
+import { useLocation } from "react-router-dom";
+import { Eye, Menu, Volume2, VolumeX } from "lucide-react";import { MareMark } from "@/components/common/MareLogo";
 import { buttonClasses } from "@/components/ui";
 import { usePermissions } from "@/hooks/usePermissions";
 import { useSpeechSynthesis } from "@/hooks/useSpeech";
@@ -60,13 +60,7 @@ export function Topbar({ onOpenMenu }: TopbarProps) {
               <Eye className="h-3.5 w-3.5" aria-hidden="true" />
               Somente leitura
             </span>
-          )}
-          {!isViewer && !isOnNewRequest && (
-            <Link to="/solicitacoes/nova" aria-label="Nova solicitação" className={buttonClasses("primary", "icon", "lg:hidden")}>
-              <Plus className="h-5 w-5" aria-hidden="true" />
-            </Link>
-          )}
-          <NotificationsMenu />
+          )}          <NotificationsMenu />
           <ProfileMenu />
         </div>
       </div>

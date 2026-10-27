@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Accessibility, Bell, CheckCircle2, CircleAlert, ClipboardCheck, Database, Info, Loader2, Play, RotateCcw, Rocket, ShieldCheck, UserCog, Volume2, VolumeX } from "lucide-react";
+import { Accessibility, Bell, CheckCircle2, CircleAlert, ClipboardCheck, Database, Loader2, Play, RotateCcw, Rocket, UserCog, Volume2, VolumeX } from "lucide-react";
 import { A11yReport } from "@/components/accessibility/A11yReport";
 import { AccessibilityPanel } from "@/components/accessibility/AccessibilityPanel";
 import { ShortcutsTable } from "@/components/accessibility/ShortcutsTable";
@@ -290,28 +290,7 @@ export function SettingsPage() {
       </div>
 
       {!isViewer && (
-        <>
-          <div className="mt-4"><A11yReport /></div>
-          <div className="mt-4">
-            <Card>
-              <CardHeader title="Sobre a Plataforma Maré" icon={Info} />
-              <div className="grid gap-4 p-5 text-sm text-slate-600 md:grid-cols-3">
-                <div className="flex gap-3">
-                  <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-navy-700" aria-hidden="true" />
-                  <p>Fábrica de produtos para cães: categorias oficiais de estoque e setores da operação.</p>
-                </div>
-                <div className="flex gap-3">
-                  <Database className="mt-0.5 h-5 w-5 shrink-0 text-navy-700" aria-hidden="true" />
-                  <p>Serviços tipados em <code className="rounded bg-slate-100 px-1 text-xs">src/services</code> com as mesmas assinaturas dos repositórios Supabase.</p>
-                </div>
-                <div className="flex gap-3">
-                  <Accessibility className="mt-0.5 h-5 w-5 shrink-0 text-navy-700" aria-hidden="true" />
-                  <p>Versão do protótipo: 0.3 · Acessibilidade, navegação por teclado e verificação automatizada incluídas.</p>
-                </div>
-              </div>
-            </Card>
-          </div>
-        </>
+        <div className="mt-4"><A11yReport /></div>
       )}
 
       <AccessibilityPanel open={a11yOpen} onClose={() => setA11yOpen(false)} />

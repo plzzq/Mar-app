@@ -71,8 +71,7 @@ export function AppLayout() {
         </main>
 
         <footer className="border-t border-slate-200 bg-white px-4 py-3 text-xs text-slate-500 md:px-6 lg:px-8">
-          <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-2">
-            <span>Plataforma Maré · fábrica de produtos para cães · dados de demonstração</span>
+          <div className="mx-auto flex max-w-[1400px] justify-end">
             <button
               type="button"
               onClick={() => setShortcutsOpen(true)}

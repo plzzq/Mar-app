@@ -15,7 +15,6 @@ import { roleLabel } from "@/services/permissions";
 import { runSelfTests, type SelfTestResult } from "@/services/selfTest";
 import { isSupabaseConfigured } from "@/services/supabase/client";
 import { listUsers, restoreDemoData, switchActiveUser } from "@/services/userService";
-
 type PrefKey = "prazo" | "atrasada" | "estoque" | "nova" | "separacao" | "cancelamento";
 
 const PREFERENCES: { key: PrefKey; label: string; description: string }[] = [
@@ -49,6 +48,85 @@ export function SettingsPage() {
   const [testResults, setTestResults] = useState<SelfTestResult[] | null>(null);
   const speech = useSpeechSynthesis();
   const supabaseOn = isSupabaseConfigured();
+  const isViewer = user.roleKey === "leitura";
+
+  // Visualizador vê apenas acessibilidade, voz e atalhos
+  if (isViewer) {
+    return (
+      <>
+        <PageHeader
+          title="Configurações"
+          description="Acessibilidade, leitura em voz alta e atalhos de teclado."
+          breadcrumbs={[{ label: "Visão geral", to: "/" }, { label: "Configurações" }]}
+        />
+        <div className="grid gap-4 xl:grid-cols-2">
+          <Card>
+            <CardHeader title="Acessibilidade" description="Fonte, contraste, tema, animações, alvos de toque e atalhos." icon={Accessibility} />
+            <div className="space-y-4 p-5">
+              <p className="text-sm text-slate-600">
+                As preferências são aplicadas em toda a plataforma, salvas por usuário neste dispositivo e restauráveis.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Button onClick={() => setA11yOpen(true)}>
+                  <Accessibility className="h-4 w-4" aria-hidden="true" />
+                  Abrir painel de acessibilidade
+                </Button>
+                <Button variant="outline" onClick={() => setShortcutsOpen(true)}>
+                  Ver atalhos de teclado
+                </Button>
+              </div>
+              <p className="text-xs text-slate-500">
+                Atalhos gerais: <strong>?</strong> abre a lista de atalhos e <strong>/</strong> foca a busca.
+              </p>
+            </div>
+          </Card>
+
+          <Card>
+            <CardHeader title="Leitura em voz alta" description="Leitura em voz alta pela Web Speech API." icon={Accessibility} />
+            <div className="space-y-4 p-5 text-sm text-slate-700">
+              <p>
+                Use o ícone de alto-falante no cabeçalho para ler a página atual. Nas respostas da Mar.IA, cada mensagem tem o próprio controle de leitura.
+              </p>
+              {speech.supported ? (
+                <div className="flex flex-wrap items-center gap-3">
+                  <Button
+                    variant={speech.speakingId === "test" ? "secondary" : "outline"}
+                    onClick={() => (speech.speakingId === "test" ? speech.stop() : speech.speak(SAMPLE_TEXT, "test"))}
+                    aria-pressed={speech.speakingId === "test"}
+                  >
+                    {speech.speakingId === "test" ? <VolumeX className="h-4 w-4" aria-hidden="true" /> : <Volume2 className="h-4 w-4" aria-hidden="true" />}
+                    {speech.speakingId === "test" ? "Interromper leitura" : "Testar leitura em voz alta"}
+                  </Button>
+                  <Badge tone="success" icon={CheckCircle2}>Suportada neste navegador</Badge>
+                </div>
+              ) : (
+                <Badge tone="warning" icon={Info}>Leitura em voz alta não suportada neste navegador</Badge>
+              )}
+            </div>
+          </Card>
+        </div>
+
+        <Card className="mt-4">
+          <CardHeader title="Atalhos de teclado" description="Listagem completa, também disponível pela tecla ?." icon={Accessibility} />
+          <div className="p-5">
+            <ShortcutsTable />
+          </div>
+        </Card>
+
+        <AccessibilityPanel open={a11yOpen} onClose={() => setA11yOpen(false)} />
+        <Modal
+          open={shortcutsOpen}
+          onClose={() => setShortcutsOpen(false)}
+          title="Atalhos de teclado"
+          description="Disponíveis em toda a plataforma, sem interferir na digitação."
+          size="md"
+          footer={<Button onClick={() => setShortcutsOpen(false)}>Fechar</Button>}
+        >
+          <ShortcutsTable />
+        </Modal>
+      </>
+    );
+  }
 
   const updatePref = (key: PrefKey, value: boolean) => {
     setPrefs((prev) => ({ ...prev, [key]: value }));

@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Accessibility, Bell, CheckCircle2, CircleAlert, ClipboardCheck, Database, Info, Loader2, Play, RotateCcw, Rocket, ShieldCheck, UserCog, Volume2, VolumeX } from "lucide-react";
+import { Accessibility, Bell, CheckCircle2, CircleAlert, ClipboardCheck, Database, Info, Loader2, Play, RotateCcw, Rocket, UserCog, Volume2, VolumeX } from "lucide-react";
 import { A11yReport } from "@/components/accessibility/A11yReport";
 import { AccessibilityPanel } from "@/components/accessibility/AccessibilityPanel";
 import { ShortcutsTable } from "@/components/accessibility/ShortcutsTable";
 import { PageHeader } from "@/components/common/PageHeader";
-import { DemoBadge } from "@/components/common/Widgets";
 import { Badge, Button, Card, CardHeader, EmptyState } from "@/components/ui";
 import { ConfirmDialog, Modal } from "@/components/ui/Modal";
 import { Select, ToggleField } from "@/components/ui/forms";
@@ -14,7 +13,7 @@ import { useSpeechSynthesis } from "@/hooks/useSpeech";
 import { getErrorMessage } from "@/lib/errors";
 import { roleLabel } from "@/services/permissions";
 import { runSelfTests, type SelfTestResult } from "@/services/selfTest";
-import { dataSourceLabel, isSupabaseConfigured } from "@/services/supabase/client";
+import { isSupabaseConfigured } from "@/services/supabase/client";
 import { listUsers, restoreDemoData, switchActiveUser } from "@/services/userService";
 
 type PrefKey = "prazo" | "atrasada" | "estoque" | "nova" | "separacao" | "cancelamento";
@@ -55,7 +54,7 @@ export function SettingsPage() {
     setPrefs((prev) => ({ ...prev, [key]: value }));
     toast({
       title: "Preferência atualizada",
-      description: "Alteração salva apenas nesta sessão de demonstração.",
+      description: "Alteração salva nesta sessão.",
       variant: "info",
     });
   };
@@ -64,7 +63,7 @@ export function SettingsPage() {
     setResetting(true);
     try {
       await restoreDemoData();
-      toast({ title: "Dados restaurados", description: "Os dados de demonstração voltaram ao estado inicial.", variant: "success" });
+      toast({ title: "Dados restaurados", description: "Os dados voltaram ao estado inicial.", variant: "success" });
     } catch (error) {
       toast({ title: "Não foi possível restaurar", description: getErrorMessage(error), variant: "error" });
     } finally {
@@ -105,21 +104,11 @@ export function SettingsPage() {
     }
   };
 
-  const integrations: { name: string; status: string; tone: "success" | "warning" | "neutral"; note: string }[] = [
-    { name: "Autenticação", status: supabaseOn ? "Supabase Auth" : "Modo de demonstração", tone: supabaseOn ? "success" : "warning", note: supabaseOn ? "Login real com perfis da tabela profiles." : "Sem autenticação real nesta versão." },
-    { name: "Banco de dados", status: dataSourceLabel(), tone: supabaseOn ? "success" : "neutral", note: supabaseOn ? "Tabelas + RLS + função transacional (supabase/schema.sql)." : "Cache local versionado (mare:state:v2); script SQL pronto em supabase/schema.sql." },
-    { name: "Mar.IA (modelo de linguagem)", status: "Não configurada", tone: "warning", note: "Respostas de demonstração, sem IA real." },
-    { name: "Publicação (Vercel)", status: "Pendente", tone: "neutral", note: "Build estático compatível com a publicação." },
-  ];
-
   return (
     <>
-      <div className="mb-3">
-        <DemoBadge />
-      </div>
       <PageHeader
         title="Configurações"
-        description="Perfil de acesso, preferências, acessibilidade, dados locais, testes funcionais e status das integrações."
+        description="Perfil de acesso, preferências, acessibilidade, dados locais e testes funcionais."
         breadcrumbs={[{ label: "Visão geral", to: "/" }, { label: "Configurações" }]}
       />
 
@@ -164,9 +153,7 @@ export function SettingsPage() {
             {switching && <p className="text-sm text-slate-500">Trocando de perfil…</p>}
             <ul className="space-y-1.5 text-xs text-slate-600">
               <li>• <strong>Admin:</strong> tudo, incluindo desativar itens e reverter.</li>
-              <li>• <strong>PCP:</strong> solicitações (criar, editar, cancelar, status).</li>
-              <li>• <strong>Almoxarifado:</strong> separação, estoque e movimentações.</li>
-              <li>• <strong>Produção:</strong> criar solicitações e consultar.</li>
+              <li>• <strong>Visualizador:</strong> somente leitura, sem edições.</li>
             </ul>
             <Button variant="outline" size="sm" onClick={() => void listUsers().then(() => toast({ title: "Perfis carregados", variant: "info" }))}>
               Recarregar perfis
@@ -215,32 +202,16 @@ export function SettingsPage() {
         </Card>
 
         <Card>
-          <CardHeader title="Dados locais" description="Cache versionado no navegador + script oficial do Supabase." icon={Database} />
+          <CardHeader title="Dados locais" description="Cache versionado no navegador." icon={Database} />
           <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-slate-600">
-              Suas alterações persistem ao recarregar (cache <code className="rounded bg-slate-100 px-1 text-xs">mare:state:v2</code>). A fonte oficial será o
-              Supabase — execute <code className="rounded bg-slate-100 px-1 text-xs">supabase/schema.sql</code> e configure as variáveis de ambiente para migrar.
+              Suas alterações persistem ao recarregar (cache <code className="rounded bg-slate-100 px-1 text-xs">mare:state:v2</code>).
             </p>
             <Button variant="outline" onClick={() => setConfirmReset(true)} className="shrink-0">
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
               Restaurar dados
             </Button>
           </div>
-        </Card>
-
-        <Card>
-          <CardHeader title="Integrações" description="Situação atual de cada integração." icon={Rocket} />
-          <ul className="divide-y divide-slate-100 px-5">
-            {integrations.map((item) => (
-              <li key={item.name} className="flex flex-col gap-1 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-                <div>
-                  <p className="text-sm font-medium text-slate-900">{item.name}</p>
-                  <p className="text-xs text-slate-500">{item.note}</p>
-                </div>
-                <Badge tone={item.tone}>{item.status}</Badge>
-              </li>
-            ))}
-          </ul>
         </Card>
 
         <Card>
@@ -263,7 +234,7 @@ export function SettingsPage() {
               </p>
             )}
             {!testing && !testResults && (
-              <EmptyState title="Nenhuma verificação executada" description="Clique em “Executar verificação” para testar os fluxos críticos do sistema." />
+              <EmptyState title="Nenhuma verificação executada" description="Clique em "Executar verificação" para testar os fluxos críticos do sistema." />
             )}
             {testResults && (
               <ol className="space-y-2">
@@ -297,26 +268,6 @@ export function SettingsPage() {
         </div>
       </Card>
 
-      <div className="mt-4">
-        <Card>
-          <CardHeader title="Sobre a Plataforma Maré" icon={Info} />
-          <div className="grid gap-4 p-5 text-sm text-slate-600 md:grid-cols-3">
-            <div className="flex gap-3">
-              <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-navy-700" aria-hidden="true" />
-              <p>Fábrica de produtos para cães: categorias oficiais de estoque e setores da operação.</p>
-            </div>
-            <div className="flex gap-3">
-              <Database className="mt-0.5 h-5 w-5 shrink-0 text-navy-700" aria-hidden="true" />
-              <p>Serviços tipados em <code className="rounded bg-slate-100 px-1 text-xs">src/services</code> com as mesmas assinaturas dos repositórios Supabase.</p>
-            </div>
-            <div className="flex gap-3">
-              <Accessibility className="mt-0.5 h-5 w-5 shrink-0 text-navy-700" aria-hidden="true" />
-              <p>Versão do protótipo: 0.3 · Acessibilidade, navegação por teclado e verificação automatizada incluídas.</p>
-            </div>
-          </div>
-        </Card>
-      </div>
-
       <AccessibilityPanel open={a11yOpen} onClose={() => setA11yOpen(false)} />
 
       <Modal
@@ -332,7 +283,7 @@ export function SettingsPage() {
 
       <ConfirmDialog
         open={confirmReset}
-        title="Restaurar dados de demonstração?"
+        title="Restaurar dados?"
         description="Todas as alterações feitas nesta sessão serão descartadas e os dados voltarão ao estado inicial."
         confirmLabel="Restaurar dados"
         tone="danger"

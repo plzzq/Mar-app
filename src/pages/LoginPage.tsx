@@ -115,7 +115,7 @@ export function LoginPage() {
         </div>
 
         <p className="relative text-xs text-sky-200/40">
-          Protótipo de demonstração · Nenhum dado real é acessado ou protegido
+          Plataforma Maré · v3.0
         </p>
       </aside>
 
@@ -140,7 +140,7 @@ export function LoginPage() {
 
           {/* Acesso rápido */}
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Acesso rápido — demonstração</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Acesso rápido</p>
             {QUICK_ACCESS.map((profile) => {
               const Icon = profile.icon;
               const loading = quickLoading === profile.label;
@@ -241,7 +241,7 @@ export function LoginPage() {
           </form>
 
           <p className="text-center text-xs text-slate-400">
-            Ao entrar, você acessa apenas o protótipo com dados fictícios.
+            Acesse a plataforma com seu perfil.
           </p>
         </div>
       </main>

@@ -96,7 +96,7 @@ function ProfileContent({ profile }: { profile: UserProfile }) {
             <p className="text-lg font-semibold text-navy-900">{profile.name}</p>
             <p className="text-sm text-slate-600">{profile.role}</p>
           </div>
-          <Badge tone="info" icon={BadgeCheck}>Perfil de demonstração</Badge>
+          <Badge tone="info" icon={BadgeCheck}>Perfil ativo</Badge>
         </div>
         <dl className="space-y-4 border-t border-slate-100 p-5 text-sm">
           <div className="flex items-start gap-3">

@@ -73,11 +73,6 @@ export function WelcomeScreen({ onPick }: { onPick: (prompt: string) => void }) 
         ))}
       </div>
 
-      <p role="note" className="rounded-md border border-amber-300 bg-amber-50 p-3 text-xs leading-relaxed text-amber-900">
-        <strong className="font-semibold">Modo de demonstração.</strong> As respostas são calculadas a partir dos dados fictícios desta versão. Perguntas gerais e
-        ações administrativas dependerão da conexão com o modelo de linguagem e do backend, ainda não configurados.
-      </p>
-
       <div className="space-y-4">
         {SUGGESTION_GROUPS.map((group) => (
           <section key={group.title} aria-labelledby={`suggestions-${group.title.replace(/\s+/g, "-")}`}>

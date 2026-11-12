@@ -89,14 +89,6 @@ export function HistoryPage() {
         }
       />
 
-      <div role="note" className="mb-4 flex gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-        <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-        <p>
-          <strong className="font-semibold">Registros de demonstração.</strong> Os responsáveis e horários são fictícios e não constituem trilha de auditoria oficial.
-          A rastreabilidade real será implementada com a persistência no backend.
-        </p>
-      </div>
-
       <section aria-label="Resumo do histórico" className="mb-4 grid grid-cols-2 gap-3 xl:grid-cols-4">
         <KpiCard label="Mudanças de status" value={stats.statusChanges} icon={History} />
         <KpiCard label="Registros de separação" value={stats.separations} icon={History} tone="accent" />

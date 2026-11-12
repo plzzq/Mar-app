@@ -227,10 +227,7 @@ export function ReportsPage() {
         </div>
       </div>
 
-      <p className="mt-6 rounded-xl bg-slate-100 p-4 text-xs text-slate-600">
-        Relatórios de demonstração. Os números dependem dos dados fictícios e das ações realizados nesta sessão e não constituem registro de auditoria.
-        Exportações futuras poderão ser ligadas ao backend sem alterar esta tela.
-      </p>
+
     </>
   );
 }

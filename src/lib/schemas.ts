@@ -104,7 +104,7 @@ export const movementInputSchema = z.object({
 
 export const loginSchema = z.object({
   identifier: z.string().trim().min(3, "Informe o e-mail ou a matrícula."),
-  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres."),
+  password: z.string(),
 });
 
 export const profileSchema = z.object({

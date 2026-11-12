@@ -70,7 +70,20 @@ export async function signIn(identifier: string, password: string): Promise<User
   if (password === "erro") {
     throw new Error("Não foi possível conectar ao serviço de autenticação. (Falha simulada na demonstração.)");
   }
-  return { ...getDemoState().user };
+  // Seleciona o perfil demo pelo e-mail informado
+  const { DEMO_USERS } = await import("./demo/demoData");
+  const isEmail = identifier.includes("@");
+  const email = isEmail ? identifier : `${identifier}@mare.br`;
+  const matchedUser = DEMO_USERS.find((u) => u.email === email);
+  if (!matchedUser) {
+    throw new BusinessRuleError("Usuário não encontrado.");
+  }
+  // Admin requer senha correta; visitante entra sem senha
+  if (matchedUser.roleKey === "admin" && password !== "mareadmin") {
+    throw new BusinessRuleError("Senha incorreta.");
+  }
+  setDemoState((s) => ({ ...s, user: { ...matchedUser } }));
+  return { ...matchedUser };
 }
 
 export async function signOutEverywhere(): Promise<void> {

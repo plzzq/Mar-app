@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
-  Eye, EyeOff, LogIn, ShieldCheck, Eye as EyeIcon,
+  Eye, EyeOff, LogIn, Eye as EyeIcon,
   TriangleAlert, ChevronRight,
 } from "lucide-react";
 import { MareMark } from "@/components/common/MareLogo";
@@ -18,22 +18,13 @@ interface LoginValues {
 
 const QUICK_ACCESS = [
   {
-    label: "Administrador",
-    description: "Acesso total — cria, edita e gerencia tudo",
-    icon: ShieldCheck,
-    color: "text-navy-700",
-    bg: "bg-navy-50 hover:bg-navy-100 border-navy-200",
-    identifier: "ana.ribeiro@exemplo.com.br",
-    password: "demo123",
-  },
-  {
     label: "Visualizador",
     description: "Somente leitura — consulta sem editar",
     icon: EyeIcon,
     color: "text-slate-600",
     bg: "bg-slate-50 hover:bg-slate-100 border-slate-200",
-    identifier: "visitante@exemplo.com.br",
-    password: "demo123",
+    identifier: "visitante@mare.br",
+    password: "",
   },
 ] as const;
 
@@ -188,14 +179,14 @@ export function LoginPage() {
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
             <Input
               id="identifier"
-              label="E-mail ou matrícula"
-              placeholder="ana.ribeiro@exemplo.com.br"
+              label="E-mail"
+              placeholder="admin@mare.br"
               autoComplete="username"
               required
               error={errors.identifier?.message}
               {...register("identifier", {
-                required: "Informe o e-mail ou a matrícula.",
-                minLength: { value: 3, message: "Informe o e-mail ou a matrícula." },
+                required: "Informe o e-mail.",
+                minLength: { value: 3, message: "Informe o e-mail." },
               })}
             />
 
@@ -214,7 +205,6 @@ export function LoginPage() {
                   className="block w-full rounded-lg border border-slate-300 bg-white py-2.5 pl-3 pr-11 text-sm text-slate-900 focus:border-navy-700 focus:outline-none focus:ring-1 focus:ring-navy-700 aria-[invalid=true]:border-rose-500"
                   {...register("password", {
                     required: "Informe a senha.",
-                    minLength: { value: 6, message: "A senha deve ter pelo menos 6 caracteres." },
                   })}
                 />
                 <button

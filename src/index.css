@@ -1,0 +1,278 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Paleta Maré: azul-marinho como cor principal e tons de azul-claro como apoio. */
+  --color-navy-50: #eef4fb;
+  --color-navy-100: #d9e6f5;
+  --color-navy-200: #b5cde8;
+  --color-navy-300: #8da9c4;
+  --color-navy-400: #5f85ad;
+  --color-navy-500: #3d6592;
+  --color-navy-600: #2c4f7a;
+  --color-navy-700: #1d4e89;
+  --color-navy-800: #13315c;
+  --color-navy-900: #0b2545;
+
+  /* Cinza de texto levemente escurecido para garantir contraste AA. */
+  --color-slate-500: #5b6b82;
+
+  /* Raio de canto reduzido: aparência de sistema industrial. */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.1875rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.3125rem;
+  --radius-2xl: 0.375rem;
+  --radius-3xl: 0.4375rem;
+
+  /* Sombras discretas. */
+  --shadow-sm: 0 1px 1px 0 rgb(15 23 42 / 0.04);
+  --shadow-md: 0 2px 4px -2px rgb(15 23 42 / 0.08);
+  --shadow-lg: 0 8px 16px -8px rgb(15 23 42 / 0.12);
+  --shadow-xl: 0 16px 32px -16px rgb(15 23 42 / 0.18);
+
+  --animate-fade-up: fade-up 0.14s ease-out;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    /* Altura do cabeçalho: usada para o cálculo das telas de altura fixa. */
+    --topbar-h: 6.75rem;
+    /* Espaçamento de linhas ajustável pelo painel de acessibilidade. */
+    --a11y-line: 1.55;
+    /* Cor do anel de foco, ajustada nos modos de contraste. */
+    --focus-color: #1d4e89;
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --topbar-h: 4rem;
+    }
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased;
+    font-family: var(--font-sans);
+    line-height: var(--a11y-line);
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: #bae6fd;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Indicador de foco SEMPRE visível (regra não fica em camada, para    */
+/* vencer qualquer utilitário que tente removê-la).                    */
+/* ------------------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Preferências de acessibilidade aplicadas globalmente                */
+/* (descrição no painel: Configurações › Acessibilidade).             */
+/* ------------------------------------------------------------------ */
+
+/* --- Modo escuro / baixa luminosidade --- */
+[data-theme="escuro"] body {
+  background-color: #0f151c;
+  color: #dde4ee;
+}
+[data-theme="escuro"] .bg-white { background-color: #161c24; }
+[data-theme="escuro"] .bg-white\/80 { background-color: rgb(22 28 36 / 0.86); }
+[data-theme="escuro"] .bg-white\/90 { background-color: rgb(22 28 36 / 0.9); }
+[data-theme="escuro"] .bg-white\/95 { background-color: rgb(22 28 36 / 0.95); }
+[data-theme="escuro"] .bg-slate-50 { background-color: #0f151c; }
+[data-theme="escuro"] .bg-slate-50\/40 { background-color: rgb(15 21 28 / 0.8); }
+[data-theme="escuro"] .bg-slate-50\/60 { background-color: rgb(15 21 28 / 0.9); }
+[data-theme="escuro"] .bg-slate-100 { background-color: #1a222c; }
+[data-theme="escuro"] .bg-slate-200 { background-color: #29323f; }
+[data-theme="escuro"] .bg-slate-200\/70 { background-color: rgb(41 50 63 / 0.9); }
+
+[data-theme="escuro"] .border-slate-100,
+[data-theme="escuro"] .divide-slate-100 > :not(:last-child),
+[data-theme="escuro"] .divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: #212a35; }
+[data-theme="escuro"] .border-slate-200 { border-color: #2b3542; }
+[data-theme="escuro"] .border-slate-200\/80 { border-color: rgb(43 53 66 / 0.95); }
+[data-theme="escuro"] .border-slate-300 { border-color: #3d4856; }
+[data-theme="escuro"] .border-slate-300\/80 { border-color: rgb(61 72 86 / 0.95); }
+
+[data-theme="escuro"] .text-slate-900 { color: #e9eef5; }
+[data-theme="escuro"] .text-slate-800 { color: #dbe3ee; }
+[data-theme="escuro"] .text-slate-700 { color: #c3cdd9; }
+[data-theme="escuro"] .text-slate-600 { color: #a6b2c2; }
+[data-theme="escuro"] .text-slate-500 { color: #97a3b4; }
+[data-theme="escuro"] .text-slate-400 { color: #8593a6; }
+[data-theme="escuro"] .placeholder\:text-slate-400::placeholder { color: #8593a6; }
+
+[data-theme="escuro"] .text-navy-700 { color: #79b6f5; }
+[data-theme="escuro"] .text-navy-800 { color: #8bc4ff; }
+[data-theme="escuro"] .text-navy-900 { color: #99cdff; }
+[data-theme="escuro"] .bg-navy-50 { background-color: #16263a; }
+[data-theme="escuro"] .bg-navy-50\/30 { background-color: rgb(22 38 58 / 0.75); }
+[data-theme="escuro"] .ring-navy-700 { --tw-ring-color: #79b6f5; }
+[data-theme="escuro"] :focus-visible { outline-color: #79b6f5; }
+
+/* Superfícies de status */
+[data-theme="escuro"] .bg-rose-50 { background-color: #2a171b; }
+[data-theme="escuro"] .bg-rose-50\/70 { background-color: rgb(42 23 27 / 0.85); }
+[data-theme="escuro"] .bg-rose-50\/40 { background-color: rgb(42 23 27 / 0.7); }
+[data-theme="escuro"] .bg-rose-100 { background-color: #3a1a20; }
+[data-theme="escuro"] .text-rose-600 { color: #ff9090; }
+[data-theme="escuro"] .text-rose-700 { color: #ffa0a0; }
+[data-theme="escuro"] .text-rose-800 { color: #ffb5b5; }
+[data-theme="escuro"] .text-rose-900 { color: #ffc8c8; }
+[data-theme="escuro"] .border-rose-200 { border-color: #7a3140; }
+[data-theme="escuro"] .border-rose-300 { border-color: #8d3a4a; }
+[data-theme="escuro"] .ring-rose-200 { --tw-ring-color: #7a3140; }
+
+[data-theme="escuro"] .bg-amber-50 { background-color: #2c2415; }
+[data-theme="escuro"] .text-amber-600 { color: #f2b134; }
+[data-theme="escuro"] .text-amber-900 { color: #ffd894; }
+[data-theme="escuro"] .border-amber-200 { border-color: #8a6a1f; }
+[data-theme="escuro"] .border-amber-300 { border-color: #9c7a24; }
+[data-theme="escuro"] .ring-amber-300 { --tw-ring-color: #9c7a24; }
+[data-theme="escuro"] .ring-amber-200 { --tw-ring-color: #8a6a1f; }
+
+[data-theme="escuro"] .bg-sky-50 { background-color: #0e2334; }
+[data-theme="escuro"] .bg-sky-50\/50 { background-color: rgb(14 35 52 / 0.75); }
+[data-theme="escuro"] .text-sky-700 { color: #7ec8fb; }
+[data-theme="escuro"] .text-sky-800 { color: #8fd3ff; }
+[data-theme="escuro"] .border-sky-200 { border-color: #2b6f9e; }
+[data-theme="escuro"] .border-sky-300 { border-color: #357fb4; }
+[data-theme="escuro"] .ring-sky-200,
+[data-theme="escuro"] .ring-sky-300,
+[data-theme="escuro"] .ring-sky-500 { --tw-ring-color: #357fb4; }
+
+[data-theme="escuro"] .bg-emerald-50 { background-color: #10261f; }
+[data-theme="escuro"] .bg-emerald-50\/60 { background-color: rgb(16 38 31 / 0.8); }
+[data-theme="escuro"] .bg-emerald-100 { background-color: #153428; }
+[data-theme="escuro"] .text-emerald-600 { color: #4fd6a0; }
+[data-theme="escuro"] .text-emerald-700 { color: #63dfac; }
+[data-theme="escuro"] .text-emerald-800 { color: #7fe1b8; }
+[data-theme="escuro"] .border-emerald-200,
+[data-theme="escuro"] .border-emerald-300 { border-color: #1f6b4f; }
+[data-theme="escuro"] .ring-emerald-200 { --tw-ring-color: #1f6b4f; }
+
+[data-theme="escuro"] .bg-teal-50 { background-color: #0f2a2a; }
+[data-theme="escuro"] .text-teal-800 { color: #82ded6; }
+[data-theme="escuro"] .border-teal-200 { border-color: #1c5f5f; }
+
+[data-theme="escuro"] .bg-stone-100 { background-color: #232830; }
+[data-theme="escuro"] .text-stone-800 { color: #dcd9d4; }
+[data-theme="escuro"] .text-stone-600 { color: #b3b0aa; }
+[data-theme="escuro"] .border-stone-300 { border-color: #4d545e; }
+
+[data-theme="escuro"] .bg-blue-50 { background-color: #132337; }
+[data-theme="escuro"] .text-blue-900 { color: #9dccff; }
+[data-theme="escuro"] .ring-blue-200,
+[data-theme="escuro"] .ring-blue-300 { --tw-ring-color: #3b6ea8; }
+
+/* --- Alto contraste --- */
+[data-contrast="alto"] { --focus-color: #000000; }
+[data-contrast="alto"] :focus-visible { outline-width: 3px; outline-color: #000000; }
+[data-contrast="alto"] .text-slate-400 { color: #374151; }
+[data-contrast="alto"] .text-slate-500 { color: #2b3644; }
+[data-contrast="alto"] .text-slate-600 { color: #1f2937; }
+[data-contrast="alto"] .text-slate-700,
+[data-contrast="alto"] .text-slate-800,
+[data-contrast="alto"] .text-slate-900 { color: #0b1220; }
+[data-contrast="alto"] .border-slate-200,
+[data-contrast="alto"] .border-slate-300 { border-color: #0b1220; }
+[data-contrast="alto"][data-theme="escuro"] { --focus-color: #ffffff; }
+[data-contrast="alto"][data-theme="escuro"] :focus-visible { outline-color: #ffffff; }
+[data-contrast="alto"][data-theme="escuro"] .text-slate-400,
+[data-contrast="alto"][data-theme="escuro"] .text-slate-500,
+[data-contrast="alto"][data-theme="escuro"] .text-slate-600,
+[data-contrast="alto"][data-theme="escuro"] .text-slate-700,
+[data-contrast="alto"][data-theme="escuro"] .text-slate-800,
+[data-contrast="alto"][data-theme="escuro"] .text-slate-900 { color: #f5f8fc; }
+[data-contrast="alto"][data-theme="escuro"] .border-slate-200,
+[data-contrast="alto"][data-theme="escuro"] .border-slate-300 { border-color: #f5f8fc; }
+
+/* --- Redução de animações (preferência manual) --- */
+[data-motion="reduced"] *,
+[data-motion="reduced"] *::before,
+[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* --- Destaque de links e elementos interativos --- */
+[data-links="highlight"] a[href] {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+}
+[data-links="highlight"] a[href]:hover {
+  background-color: #bae6fd;
+}
+
+/* --- Áreas de toque maiores --- */
+[data-targets="large"] button:not([data-compact]),
+[data-targets="large"] [role="switch"],
+[data-targets="large"] [role="tab"] {
+  min-height: 44px;
+}
+[data-targets="large"] input,
+[data-targets="large"] select,
+[data-targets="large"] textarea {
+  min-height: 44px;
+}
+
+/* --- Fonte mais legível --- */
+[data-font="readable"] body {
+  font-family: Verdana, Tahoma, Geneva, sans-serif;
+}
+
+/* --- Espaçamento de texto ajustado --- */
+[data-line="folgado"] p,
+[data-line="folgado"] li,
+[data-line="folgado"] dd,
+[data-line="folgado"] dt,
+[data-line="folgado"] td,
+[data-line="folgado"] label {
+  line-height: 1.9;
+}
+[data-line="apertado"] p,
+[data-line="apertado"] li,
+[data-line="apertado"] td {
+  line-height: 1.35;
+}
+
+/* O conteúdo principal recebe o foco após a navegação entre rotas;
+   o contorno é omitido aqui porque o elemento é um marco, não um controle. */
+#conteudo:focus,
+#conteudo:focus-visible {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

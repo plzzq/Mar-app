@@ -238,31 +238,31 @@ export function BomPage() {
         }
       />
 
-      {/* Abas */}
+      {/* Abas — "Novo/Editar template" só aparece quando o formulário está aberto */}
       <div role="group" aria-label="Visões do BOM" className="mb-4 flex gap-2">
-        {(["templates", "form"] as Tab[]).map((t) => (
+        <button
+          type="button"
+          aria-pressed={tab === "templates"}
+          onClick={cancelForm}
+          className={cn(
+            "rounded-md px-4 py-2 text-sm font-medium transition-colors",
+            tab === "templates"
+              ? "bg-navy-800 text-white"
+              : "bg-white text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50",
+          )}
+        >
+          Templates
+        </button>
+
+        {tab === "form" && (
           <button
-            key={t}
             type="button"
-            aria-pressed={tab === t}
-            onClick={() => {
-              if (t === "templates") cancelForm();
-              else openNew();
-            }}
-            className={cn(
-              "rounded-md px-4 py-2 text-sm font-medium transition-colors",
-              tab === t
-                ? "bg-navy-800 text-white"
-                : "bg-white text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50",
-            )}
+            aria-pressed
+            className="rounded-md bg-navy-800 px-4 py-2 text-sm font-medium text-white"
           >
-            {t === "templates"
-              ? "Templates"
-              : editId
-              ? "Editar template"
-              : "Novo template"}
+            {editId ? "Editar template" : "Novo template"}
           </button>
-        ))}
+        )}
       </div>
 
       {/* ============================================================ */}

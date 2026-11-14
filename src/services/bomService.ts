@@ -21,17 +21,21 @@ export interface BomItemView {
   quantity: number;
   unit: string;
   available: number;
-  /** Custo unitário do material × quantity */
   itemCost: number;
-  /** true se available >= quantity (para 1 unidade do produto) */
+  /** true se o material tem custo cadastrado */
+  hasCost: boolean;
   available1: boolean;
+  /** Quantas unidades do produto este item permite produzir com o saldo atual */
+  maxUnits: number;
 }
 
 export interface BomTemplateView extends BomTemplate {
-  /** Soma de itemCost de todos os itens */
   estimatedCost: number;
-  /** true se todos os materiais têm saldo suficiente para 1 unidade */
+  /** true se todos os materiais têm custo cadastrado */
+  hasMissingCost: boolean;
   fullyAvailable: boolean;
+  /** Máximo de unidades produzíveis agora com o estoque atual */
+  maxProducible: number;
   itemViews: BomItemView[];
 }
 
@@ -41,7 +45,9 @@ function buildView(template: BomTemplate): BomTemplateView {
 
   const itemViews: BomItemView[] = template.items.map((item) => {
     const mat = byId[item.materialId];
-    const itemCost = mat && mat.cost != null ? mat.cost * item.quantity : 0;
+    const hasCost = mat != null && mat.cost != null && mat.cost > 0;
+    const itemCost = hasCost ? (mat!.cost! * item.quantity) : 0;
+    const maxUnits = mat && item.quantity > 0 ? Math.floor(mat.available / item.quantity) : 0;
     return {
       materialId: item.materialId,
       materialCode: mat?.code ?? item.materialId,
@@ -50,14 +56,20 @@ function buildView(template: BomTemplate): BomTemplateView {
       unit: mat?.unit ?? "",
       available: mat?.available ?? 0,
       itemCost,
+      hasCost,
       available1: mat ? mat.available >= item.quantity : false,
+      maxUnits,
     };
   });
 
   const estimatedCost = itemViews.reduce((sum, iv) => sum + iv.itemCost, 0);
   const fullyAvailable = itemViews.every((iv) => iv.available1);
+  const hasMissingCost = itemViews.some((iv) => !iv.hasCost);
+  const maxProducible = itemViews.length > 0
+    ? Math.min(...itemViews.map((iv) => iv.maxUnits))
+    : 0;
 
-  return { ...template, itemViews, estimatedCost, fullyAvailable };
+  return { ...template, itemViews, estimatedCost, hasMissingCost, fullyAvailable, maxProducible };
 }
 
 function parseBomInput(input: BomTemplateInput): BomTemplateInput {

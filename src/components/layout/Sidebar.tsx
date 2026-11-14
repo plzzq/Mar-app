@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, createContext, useContext, type ComponentType } from "react";
+﻿import { useEffect, useRef, useState, type ComponentType } from "react";
 import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -9,8 +9,6 @@ import {
   LayoutDashboard,
   Layers,
   PackageCheck,
-  PanelLeftClose,
-  PanelLeftOpen,
   Settings,
   Warehouse,
   X,
@@ -21,25 +19,7 @@ import { usePermissions } from "@/hooks/usePermissions";
 import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
-/* Contexto de abertura da sidebar animada                             */
-/* ------------------------------------------------------------------ */
-
-interface SidebarCtx {
-  open: boolean;
-  setOpen: (v: boolean) => void;
-  animate: boolean;
-}
-
-const SidebarContext = createContext<SidebarCtx | undefined>(undefined);
-
-function useSidebarCtx() {
-  const ctx = useContext(SidebarContext);
-  if (!ctx) throw new Error("useSidebarCtx must be used within SidebarContext");
-  return ctx;
-}
-
-/* ------------------------------------------------------------------ */
-/* Itens de navegação                                                  */
+/* Itens de navegaÃ§Ã£o                                                  */
 /* ------------------------------------------------------------------ */
 
 type NavIcon = LucideIcon | ComponentType<{ className?: string }>;
@@ -53,20 +33,20 @@ interface NavItem {
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { to: "/",              label: "Visão geral",                 icon: LayoutDashboard, end: true },
-  { to: "/demandas",      label: "Demandas de produção",        icon: Factory },
-  { to: "/solicitacoes",  label: "Solicitações de materiais",   icon: ClipboardList },
+  { to: "/",              label: "VisÃ£o geral",                 icon: LayoutDashboard, end: true },
+  { to: "/demandas",      label: "Demandas de produÃ§Ã£o",        icon: Factory },
+  { to: "/solicitacoes",  label: "SolicitaÃ§Ãµes de materiais",   icon: ClipboardList },
   { to: "/estoque",       label: "Estoque",                     icon: Warehouse },
   { to: "/bom",           label: "Bill of Materials",           icon: Layers },
-  { to: "/separacao",     label: "Separação de materiais",      icon: PackageCheck },
+  { to: "/separacao",     label: "SeparaÃ§Ã£o de materiais",      icon: PackageCheck },
   { to: "/mar-ia",        label: "Mar.IA",                      icon: MarIAMark },
-  { to: "/relatorios",    label: "Relatórios e indicadores",    icon: BarChart3 },
-  { to: "/historico",     label: "Histórico e rastreabilidade", icon: History },
-  { to: "/configuracoes", label: "Configurações",               icon: Settings, adminOnly: true },
+  { to: "/relatorios",    label: "RelatÃ³rios e indicadores",    icon: BarChart3 },
+  { to: "/historico",     label: "HistÃ³rico e rastreabilidade", icon: History },
+  { to: "/configuracoes", label: "ConfiguraÃ§Ãµes",               icon: Settings, adminOnly: true },
 ];
 
 /* ------------------------------------------------------------------ */
-/* Hook: detecta desktop (≥ 1024 px)                                  */
+/* Hook: detecta desktop (â‰¥ 1024 px)                                  */
 /* ------------------------------------------------------------------ */
 
 function useIsDesktop(): boolean {
@@ -82,11 +62,11 @@ function useIsDesktop(): boolean {
 }
 
 /* ------------------------------------------------------------------ */
-/* Props públicas do componente                                        */
+/* Props pÃºblicas do componente                                        */
 /* ------------------------------------------------------------------ */
 
 interface SidebarProps {
-  /** Legado: controla recolhimento por botão (desktop) */
+  /** Legado: controla recolhimento por botÃ£o (desktop) */
   collapsed: boolean;
   onToggleCollapsed: () => void;
   mobileOpen: boolean;
@@ -97,21 +77,20 @@ interface SidebarProps {
 /* Sidebar principal                                                   */
 /* ------------------------------------------------------------------ */
 
-export function Sidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMobile }: SidebarProps) {
+export function Sidebar({ collapsed, mobileOpen, onCloseMobile }: SidebarProps) {
   const isDesktop = useIsDesktop();
   const { role } = usePermissions();
   const isViewer = role === "leitura";
   const visibleItems = NAV_ITEMS.filter((item) => !(item.adminOnly && isViewer));
 
-  // hover-expand: só no desktop
+  // hover-expand: sÃ³ no desktop
   const [hoverOpen, setHoverOpen] = useState(false);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // No desktop, a sidebar está "aberta" se não estiver collapsed OU se o hover estiver ativo
+  // No desktop, a sidebar estÃ¡ "aberta" se nÃ£o estiver collapsed OU se o hover estiver ativo
   const isOpen = isDesktop ? (!collapsed || hoverOpen) : mobileOpen;
 
-  function handleMouseEnter() {
-    if (!isDesktop || !collapsed) return;
+  function handleMouseEnter() {    if (!isDesktop || !collapsed) return;
     hoverTimer.current = setTimeout(() => setHoverOpen(true), 80);
   }
 
@@ -129,10 +108,8 @@ export function Sidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMobil
     return () => document.removeEventListener("keydown", onKey);
   }, [mobileOpen, onCloseMobile]);
 
-  const hiddenOnMobile = !isDesktop && !mobileOpen;
-
   return (
-    <SidebarContext.Provider value={{ open: isOpen, setOpen: () => {}, animate: true }}>
+    <>
       {/* Overlay mobile */}
       {mobileOpen && (
         <div
@@ -149,16 +126,9 @@ export function Sidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMobil
         onMouseLeave={handleMouseLeave}
         animate={{ width: isOpen ? 256 : 80 }}
         transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
-        className={cn(
-          "fixed inset-y-0 left-0 z-50 hidden flex-col bg-navy-900 text-slate-200 shadow-xl overflow-hidden lg:flex",
-        )}
+        className="fixed inset-y-0 left-0 z-50 hidden flex-col bg-navy-900 text-slate-200 shadow-xl overflow-hidden lg:flex"
       >
-        <DesktopSidebarContent
-          isOpen={isOpen}
-          collapsed={collapsed}
-          visibleItems={visibleItems}
-          onToggleCollapsed={onToggleCollapsed}
-        />
+        <DesktopSidebarContent isOpen={isOpen} visibleItems={visibleItems} />
       </motion.aside>
 
       {/* ---- MOBILE: drawer deslizante ---- */}
@@ -173,31 +143,24 @@ export function Sidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMobil
             transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
             className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-navy-900 text-slate-200 shadow-xl lg:hidden"
           >
-            <MobileSidebarContent
-              visibleItems={visibleItems}
-              onClose={onCloseMobile}
-            />
+            <MobileSidebarContent visibleItems={visibleItems} onClose={onCloseMobile} />
           </motion.aside>
         )}
       </AnimatePresence>
-    </SidebarContext.Provider>
+    </>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Conteúdo interno — desktop                                         */
+/* ConteÃºdo interno â€” desktop                                         */
 /* ------------------------------------------------------------------ */
 
 function DesktopSidebarContent({
   isOpen,
-  collapsed,
   visibleItems,
-  onToggleCollapsed,
 }: {
   isOpen: boolean;
-  collapsed: boolean;
   visibleItems: NavItem[];
-  onToggleCollapsed: () => void;
 }) {
   return (
     <>
@@ -210,7 +173,7 @@ function DesktopSidebarContent({
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-4" aria-label="Navegação">
+      <nav className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-4" aria-label="NavegaÃ§Ã£o">
         <ul className="space-y-0.5">
           {visibleItems.map((item) => (
             <NavItemRow key={item.to} item={item} isOpen={isOpen} />
@@ -218,40 +181,13 @@ function DesktopSidebarContent({
         </ul>
       </nav>
 
-      {/* Botão recolher */}
-      <div className="space-y-3 border-t border-white/10 p-3">
-        <button
-          type="button"
-          onClick={onToggleCollapsed}
-          aria-expanded={!collapsed}
-          className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm text-slate-300 hover:bg-white/8 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
-        >
-          {collapsed
-            ? <PanelLeftOpen className="h-5 w-5 shrink-0" aria-hidden="true" />
-            : <PanelLeftClose className="h-5 w-5 shrink-0" aria-hidden="true" />
-          }
-          <AnimatePresence>
-            {isOpen && (
-              <motion.span
-                key="label-toggle"
-                initial={{ opacity: 0, x: -6 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -6 }}
-                transition={{ duration: 0.15 }}
-                className="truncate whitespace-nowrap"
-              >
-                Recolher menu
-              </motion.span>
-            )}
-          </AnimatePresence>
-        </button>
-      </div>
+
     </>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Conteúdo interno — mobile                                          */
+/* ConteÃºdo interno â€” mobile                                          */
 /* ------------------------------------------------------------------ */
 
 function MobileSidebarContent({
@@ -275,7 +211,7 @@ function MobileSidebarContent({
         </button>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Navegação">
+      <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="NavegaÃ§Ã£o">
         <ul className="space-y-0.5">
           {visibleItems.map((item) => (
             <NavItemRow key={item.to} item={item} isOpen={true} />
@@ -287,7 +223,7 @@ function MobileSidebarContent({
 }
 
 /* ------------------------------------------------------------------ */
-/* Item de navegação — com label animado                              */
+/* Item de navegaÃ§Ã£o â€” com label animado                              */
 /* ------------------------------------------------------------------ */
 
 function NavItemRow({ item, isOpen }: { item: NavItem; isOpen: boolean }) {

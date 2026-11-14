@@ -64,6 +64,7 @@ export function SearchBox({ inputId }: SearchBoxProps) {
       <input
         id={inputId}
         type="search"
+        role="combobox"
         value={query}
         onChange={(event) => {
           setQuery(event.target.value);
@@ -75,12 +76,16 @@ export function SearchBox({ inputId }: SearchBoxProps) {
         autoComplete="off"
         aria-expanded={showPanel && hasResults}
         aria-controls={`${inputId}-results`}
+        aria-autocomplete="list"
+        aria-haspopup="listbox"
         className="h-10 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-navy-700 focus:outline-none focus:ring-1 focus:ring-navy-700"
       />
 
       {showPanel && (
         <div
           id={`${inputId}-results`}
+          role="listbox"
+          aria-label="Resultados da pesquisa"
           className="animate-fade-up absolute left-0 right-0 top-[calc(100%+4px)] z-50 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg"
         >
           {!hasResults ? (

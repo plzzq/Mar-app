@@ -248,7 +248,8 @@ export function StockPage() {
                       <th scope="col" className="px-4 py-3 text-right font-semibold">Reservado</th>
                       <th scope="col" className="px-4 py-3 text-right font-semibold">Saldo livre</th>
                       <th scope="col" className="px-4 py-3 text-right font-semibold">Mínimo</th>
-                      <th scope="col" className="px-4 py-3 font-semibold">Localização</th>
+                      <th scope="col" className="px-4 py-3 text-right font-semibold">Preço unit.</th>
+                      <th scope="col" className="px-4 py-3 font-semibold hidden xl:table-cell">Localização</th>
                       <th scope="col" className="px-4 py-3 font-semibold">Situação</th>
                     </tr>
                   </thead>
@@ -278,6 +279,7 @@ export function StockPage() {
                       <div><dt>Disponível</dt><dd className="font-semibold text-slate-900">{formatNumber(m.available)} {m.unit}</dd></div>
                       <div><dt>Reservado</dt><dd className="font-semibold text-slate-900">{formatNumber(m.reserved)} {m.unit}</dd></div>
                       <div><dt>Saldo livre</dt><dd className="font-semibold text-slate-900">{formatNumber(m.freeBalance)} {m.unit}</dd></div>
+                      <div><dt>Preço unit.</dt><dd className="font-semibold text-slate-900">{m.cost != null ? m.cost.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "—"}</dd></div>
                     </dl>
                   </li>
                 ))}
@@ -402,6 +404,12 @@ function StockRow({ material: m }: { material: MaterialView }) {
       <td className="px-4 py-3 text-right font-medium tabular-nums">{formatNumber(m.freeBalance)} {m.unit}</td>
       <td className="px-4 py-3 text-right tabular-nums">{formatNumber(m.minimumStock)} {m.unit}</td>
       <td className="whitespace-nowrap px-4 py-3 text-slate-700">{m.location}</td>
+      <td className="px-4 py-3 text-right tabular-nums text-slate-700">
+        {m.cost != null
+          ? m.cost.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
+          : <span className="text-slate-400">—</span>}
+      </td>
+      <td className="whitespace-nowrap px-4 py-3 text-slate-700 hidden xl:table-cell">{m.location}</td>
       <td className="px-4 py-3">
         <StockStatusBadge status={m.status} />
       </td>

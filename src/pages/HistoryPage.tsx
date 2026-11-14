@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Download, History, Search, ShieldAlert } from "lucide-react";
+import { Download, History, Search } from "lucide-react";
 import { HistoryKindBadge } from "@/components/common/DomainBadges";
 import { FilterPanel } from "@/components/common/FilterPanel";
 import { PageHeader } from "@/components/common/PageHeader";

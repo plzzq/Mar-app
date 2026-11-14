@@ -170,7 +170,7 @@ export function MaterialFormModal({ open, initial, onClose, onSaved }: MaterialF
             <Input id="mat-min" label="Estoque mínimo" type="number" min={0} step={1} required value={String(values.minimumStock)} onChange={(e) => set("minimumStock", Number(e.target.value))} error={errors.minimumStock} />
             <Input id="mat-location" label="Localização no almoxarifado" required value={values.location} onChange={(e) => set("location", e.target.value.toUpperCase())} error={errors.location} placeholder="Ex.: A-01-01" maxLength={20} />
             <Input id="mat-supplier" label="Fornecedor (opcional)" value={values.supplier ?? ""} onChange={(e) => set("supplier", e.target.value)} maxLength={120} />
-            <Input id="mat-cost" label="Custo unitário em R$ (opcional)" type="number" min={0} step={0.01} value={values.cost === undefined ? "" : String(values.cost)} onChange={(e) => set("cost", e.target.value === "" ? undefined : Number(e.target.value))} error={errors.cost} />
+            <Input id="mat-cost" label="Custo unitário em R$ (opcional)" type="number" min={0} step={0.01} value={values.cost === undefined ? "" : String(values.cost)} onChange={(e) => set("cost", e.target.value === "" ? undefined : Number(e.target.value))} error={errors.cost} hint="Usado para calcular o custo estimado nos templates de BOM." />
             {initial && (
               <div className="md:col-span-2">
                 <label htmlFor="mat-active" className="flex cursor-pointer items-center gap-2 text-sm text-slate-700">

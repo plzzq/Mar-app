@@ -78,22 +78,23 @@ export function LoginPage() {
   return (
     <div className="grid min-h-dvh lg:grid-cols-[minmax(0,1fr)_minmax(0,480px)]">
       {/* ── Painel esquerdo ── */}
-      <aside className="relative hidden flex-col justify-between overflow-hidden bg-navy-900 px-12 py-12 text-white lg:flex">
+      <aside className="relative hidden flex-col justify-center overflow-hidden bg-navy-900 px-16 py-16 text-white lg:flex gap-16">
         {/* Gradiente decorativo */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-navy-800 via-navy-900 to-slate-900" aria-hidden="true" />
         <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" aria-hidden="true" />
         <div className="pointer-events-none absolute -bottom-16 -left-16 h-72 w-72 rounded-full bg-navy-700/40 blur-2xl" aria-hidden="true" />
 
-        <div className="relative flex items-center gap-3">
-          <MareMark className="h-16 w-auto" />
+        <div className="relative flex flex-col items-start gap-2">
+          <MareMark className="h-20 w-auto" />
+          <p className="text-xs uppercase tracking-[0.18em] text-sky-300/70">Plataforma Industrial</p>
         </div>
 
         <div className="relative max-w-md">
           <p className="text-xs font-semibold uppercase tracking-widest text-sky-400/80">Plataforma Industrial</p>
-          <h1 className="mt-3 text-3xl font-bold leading-snug">
+          <h1 className="mt-3 text-4xl font-bold leading-snug">
             Controle total da demanda de materiais entre PCP e almoxarifado.
           </h1>
-          <ul className="mt-8 space-y-3">
+          <ul className="mt-8 space-y-4">
             {[
               "Solicitações de materiais e demandas de produção",
               "Controle de estoque e saldos reservados",
@@ -111,7 +112,7 @@ export function LoginPage() {
         </div>
 
         <p className="relative text-xs text-sky-200/40">
-          Plataforma Maré · v3.0
+          Plataforma Maré · v3.3
         </p>
       </aside>
 
@@ -121,7 +122,11 @@ export function LoginPage() {
 
           {/* Logo mobile */}
           <div className="flex items-center gap-3 lg:hidden">
-            <MareMark className="h-12 w-auto" />
+            <MareMark className="h-9 w-9" />
+            <div>
+              <p className="font-bold leading-tight text-navy-900">Maré Hub</p>
+              <p className="text-xs text-slate-500">PCP · Almoxarifado · Produção</p>
+            </div>
           </div>
 
           {/* Cabeçalho */}

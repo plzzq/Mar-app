@@ -1,8 +1,9 @@
 /* Identidade visual: marca da Maré e símbolo da Mar.IA. */
 import { cn } from "@/lib/utils";
 import logoSvg from "@/assets/logo-mare.svg";
+import mLogoSvg from "@/assets/M logo.svg";
 
-/** Logo completa MARÉ — usada na sidebar expandida. */
+/** Logo completa MARÉ — usada na sidebar expandida e na tela de login. */
 export function MareMark({ className }: { className?: string }) {
   return (
     <img
@@ -14,34 +15,19 @@ export function MareMark({ className }: { className?: string }) {
   );
 }
 
-/** Ícone compacto — corta o SVG original para mostrar só o "M" da logo. */
+/** Ícone M dedicado — usado quando a sidebar está recolhida. */
 export function MareIcon({ className }: { className?: string }) {
   return (
-    <div
-      className={cn("flex h-10 w-10 shrink-0 items-center justify-center", className)}
-      aria-label="Maré"
-      role="img"
-    >
-      {/* Usa o SVG inline recortado — viewBox aponta só para o M (primeiros ~380px de 1536) */}
-      <svg
-        viewBox="80 190 300 230"
-        className="h-9 w-9"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <image
-          href={logoSvg}
-          x="0"
-          y="0"
-          width="1536"
-          height="614"
-        />
-      </svg>
-    </div>
+    <img
+      src={mLogoSvg}
+      alt="Maré"
+      className={cn("h-10 w-10 object-contain", className)}
+      draggable={false}
+    />
   );
 }
 
-/** Símbolo da Mar.IA — ícone com ondas e ponto (sem alteração). */
+/** Símbolo da Mar.IA — ícone com ondas e ponto. */
 export function MarIAMark({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 40 40" className={cn("h-9 w-9", className)} fill="none" aria-hidden="true">
@@ -53,14 +39,38 @@ export function MarIAMark({ className }: { className?: string }) {
   );
 }
 
-/** Logo usada na sidebar — expandida mostra a logo completa, recolhida mostra só o ícone M. */
+/**
+ * Logo da sidebar:
+ * - Recolhida: só o M (pequeno, centralizado)
+ * - Expandida ao hover: cresce suavemente para a logo completa MARÉ
+ */
 export function MareLogo({ collapsed = false }: { collapsed?: boolean }) {
-  if (collapsed) {
-    return <MareIcon />;
-  }
   return (
-    <div className="flex min-w-0 items-center px-1">
-      <MareMark className="h-12 w-auto max-w-[160px]" />
+    <div className="flex min-w-0 items-center overflow-hidden">
+      {/* M — sempre visível, some ao expandir */}
+      <img
+        src={mLogoSvg}
+        alt="Maré"
+        draggable={false}
+        className={cn(
+          "object-contain shrink-0 transition-all duration-220 ease-out",
+          collapsed
+            ? "h-10 w-10 opacity-100"
+            : "h-0 w-0 opacity-0 pointer-events-none",
+        )}
+      />
+      {/* Logo completa — aparece ao expandir */}
+      <img
+        src={logoSvg}
+        alt="Maré"
+        draggable={false}
+        className={cn(
+          "object-contain shrink-0 transition-all duration-220 ease-out",
+          collapsed
+            ? "h-0 w-0 opacity-0 pointer-events-none"
+            : "h-12 w-auto max-w-[150px] opacity-100",
+        )}
+      />
     </div>
   );
 }

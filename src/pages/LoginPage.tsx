@@ -86,7 +86,6 @@ export function LoginPage() {
 
         <div className="relative flex flex-col items-start gap-2">
           <MareMark className="h-20 w-auto" />
-          <p className="text-xs uppercase tracking-[0.18em] text-sky-300/70">Plataforma Industrial</p>
         </div>
 
         <div className="relative max-w-md">

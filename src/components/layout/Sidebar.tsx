@@ -161,7 +161,7 @@ function DesktopSidebarContent({
   return (
     <>
       <div className={cn(
-        "flex h-16 shrink-0 items-center border-b border-white/10 px-4 overflow-hidden",
+        "flex h-20 shrink-0 items-center border-b border-white/10 px-4 overflow-hidden",
         !isOpen && "justify-center px-0",
       )}>
         <MareLogo collapsed={!isOpen} />

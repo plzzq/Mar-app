@@ -8,7 +8,7 @@ export function MareMark({ className }: { className?: string }) {
     <img
       src={logoSvg}
       alt="Maré"
-      className={cn("h-8 w-auto object-contain", className)}
+      className={cn("h-12 w-auto object-contain", className)}
       draggable={false}
     />
   );
@@ -19,7 +19,7 @@ export function MareIcon({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl overflow-hidden bg-transparent",
+        "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl overflow-hidden bg-transparent",
         className,
       )}
       aria-label="Maré"
@@ -29,7 +29,7 @@ export function MareIcon({ className }: { className?: string }) {
         src={logoSvg}
         alt=""
         aria-hidden="true"
-        className="h-10 w-auto object-contain scale-[2.2] translate-x-[-28%]"
+        className="h-12 w-auto object-contain scale-[2.4] translate-x-[-28%]"
         draggable={false}
       />
     </div>
@@ -55,7 +55,7 @@ export function MareLogo({ collapsed = false }: { collapsed?: boolean }) {
   }
   return (
     <div className="flex min-w-0 items-center px-1">
-      <MareMark className="h-8 w-auto max-w-[140px]" />
+      <MareMark className="h-12 w-auto max-w-[160px]" />
     </div>
   );
 }

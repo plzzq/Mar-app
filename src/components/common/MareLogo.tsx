@@ -46,29 +46,29 @@ export function MarIAMark({ className }: { className?: string }) {
  */
 export function MareLogo({ collapsed = false }: { collapsed?: boolean }) {
   return (
-    <div className="flex min-w-0 items-center overflow-hidden">
-      {/* M — sempre visível, some ao expandir */}
+    <div className="flex min-w-0 items-center justify-center overflow-hidden w-full">
+      {/* M — recolhida */}
       <img
         src={mLogoSvg}
         alt="Maré"
         draggable={false}
         className={cn(
-          "object-contain shrink-0 transition-all duration-220 ease-out",
+          "object-contain shrink-0 transition-all duration-200 ease-out",
           collapsed
-            ? "h-10 w-10 opacity-100"
+            ? "h-12 w-12 opacity-100"
             : "h-0 w-0 opacity-0 pointer-events-none",
         )}
       />
-      {/* Logo completa — aparece ao expandir */}
+      {/* Logo completa — expandida */}
       <img
         src={logoSvg}
         alt="Maré"
         draggable={false}
         className={cn(
-          "object-contain shrink-0 transition-all duration-220 ease-out",
+          "object-contain shrink-0 transition-all duration-200 ease-out",
           collapsed
             ? "h-0 w-0 opacity-0 pointer-events-none"
-            : "h-12 w-auto max-w-[150px] opacity-100",
+            : "h-14 w-auto max-w-[210px] opacity-100",
         )}
       />
     </div>

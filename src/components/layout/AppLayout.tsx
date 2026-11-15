@@ -5,7 +5,6 @@ import { ShortcutsTable } from "@/components/accessibility/ShortcutsTable";
 import { Button } from "@/components/ui";
 import { Modal } from "@/components/ui/Modal";
 import { canUseGlobalShortcut } from "@/lib/keyboard";
-import { cn } from "@/lib/utils";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 
@@ -57,7 +56,7 @@ export function AppLayout() {
         onCloseMobile={() => setMobileOpen(false)}
       />
 
-      <div className={cn("flex min-h-dvh min-w-0 flex-col transition-[padding] duration-[220ms]", collapsed ? "lg:pl-20" : "lg:pl-64")}>
+      <div className="flex min-h-dvh min-w-0 flex-col lg:pl-20">
         <Topbar onOpenMenu={() => setMobileOpen(true)} />
         <main
           id="conteudo"

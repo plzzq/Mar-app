@@ -78,7 +78,7 @@ export function LoginPage() {
   return (
     <div className="grid min-h-dvh lg:grid-cols-[minmax(0,1fr)_minmax(0,480px)]">
       {/* ── Painel esquerdo ── */}
-      <aside className="relative hidden flex-col justify-center overflow-hidden bg-navy-900 px-16 py-16 text-white lg:flex gap-16">
+      <aside className="relative hidden flex-col justify-between overflow-hidden bg-navy-900 px-12 py-12 text-white lg:flex">
         {/* Gradiente decorativo */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-navy-800 via-navy-900 to-slate-900" aria-hidden="true" />
         <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" aria-hidden="true" />
@@ -91,10 +91,10 @@ export function LoginPage() {
 
         <div className="relative max-w-md">
           <p className="text-xs font-semibold uppercase tracking-widest text-sky-400/80">Plataforma Industrial</p>
-          <h1 className="mt-3 text-4xl font-bold leading-snug">
+          <h1 className="mt-3 text-3xl font-bold leading-snug">
             Controle total da demanda de materiais entre PCP e almoxarifado.
           </h1>
-          <ul className="mt-8 space-y-4">
+          <ul className="mt-8 space-y-3">
             {[
               "Solicitações de materiais e demandas de produção",
               "Controle de estoque e saldos reservados",
@@ -112,7 +112,7 @@ export function LoginPage() {
         </div>
 
         <p className="relative text-xs text-sky-200/40">
-          Plataforma Maré · v3.3
+          Plataforma Maré · v3.0
         </p>
       </aside>
 

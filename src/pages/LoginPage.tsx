@@ -85,11 +85,7 @@ export function LoginPage() {
         <div className="pointer-events-none absolute -bottom-16 -left-16 h-72 w-72 rounded-full bg-navy-700/40 blur-2xl" aria-hidden="true" />
 
         <div className="relative flex items-center gap-3">
-          <MareMark className="h-10 w-10" />
-          <div>
-            <p className="text-lg font-bold leading-tight tracking-tight">Maré Hub</p>
-            <p className="text-xs uppercase tracking-[0.18em] text-sky-300/70">PCP · Almoxarifado · Produção</p>
-          </div>
+          <MareMark className="h-16 w-auto" />
         </div>
 
         <div className="relative max-w-md">
@@ -125,11 +121,7 @@ export function LoginPage() {
 
           {/* Logo mobile */}
           <div className="flex items-center gap-3 lg:hidden">
-            <MareMark className="h-9 w-9" />
-            <div>
-              <p className="font-bold leading-tight text-navy-900">Maré Hub</p>
-              <p className="text-xs text-slate-500">PCP · Almoxarifado · Produção</p>
-            </div>
+            <MareMark className="h-12 w-auto" />
           </div>
 
           {/* Cabeçalho */}

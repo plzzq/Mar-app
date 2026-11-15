@@ -18,15 +18,15 @@ import { listUsers, restoreDemoData, switchActiveUser } from "@/services/userSer
 type PrefKey = "prazo" | "atrasada" | "estoque" | "nova" | "separacao" | "cancelamento";
 
 const PREFERENCES: { key: PrefKey; label: string; description: string }[] = [
-  { key: "prazo", label: "Prazos prÃ³ximos", description: "SolicitaÃ§Ãµes que vencem em atÃ© 2 dias." },
-  { key: "atrasada", label: "Demandas atrasadas", description: "SolicitaÃ§Ãµes com prazo vencido." },
-  { key: "estoque", label: "Estoque insuficiente", description: "Materiais com demanda acima do disponÃ­vel." },
-  { key: "nova", label: "Novas solicitaÃ§Ãµes", description: "Cadastros feitos pelos setores." },
-  { key: "separacao", label: "SeparaÃ§Ãµes concluÃ­das", description: "SolicitaÃ§Ãµes prontas para disponibilizaÃ§Ã£o." },
-  { key: "cancelamento", label: "Cancelamentos", description: "SolicitaÃ§Ãµes canceladas com motivo." },
+  { key: "prazo", label: "Prazos próximos", description: "Solicitações que vencem em até 2 dias." },
+  { key: "atrasada", label: "Demandas atrasadas", description: "Solicitações com prazo vencido." },
+  { key: "estoque", label: "Estoque insuficiente", description: "Materiais com demanda acima do disponível." },
+  { key: "nova", label: "Novas solicitações", description: "Cadastros feitos pelos setores." },
+  { key: "separacao", label: "Separações concluídas", description: "Solicitações prontas para disponibilização." },
+  { key: "cancelamento", label: "Cancelamentos", description: "Solicitações canceladas com motivo." },
 ];
 
-const SAMPLE_TEXT = "Leitura em voz alta ativada. VocÃª pode ouvir o conteÃºdo da pÃ¡gina pelo botÃ£o no cabeÃ§alho.";
+const SAMPLE_TEXT = "Leitura em voz alta ativada. Você pode ouvir o conteúdo da página pelo botão no cabeçalho.";
 
 export function SettingsPage() {
   const toast = useToast();
@@ -51,8 +51,8 @@ export function SettingsPage() {
   const updatePref = (key: PrefKey, value: boolean) => {
     setPrefs((prev) => ({ ...prev, [key]: value }));
     toast({
-      title: "PreferÃªncia atualizada",
-      description: "AlteraÃ§Ã£o salva nesta sessÃ£o.",
+      title: "Preferência atualizada",
+      description: "Alteração salva nesta sessão.",
       variant: "info",
     });
   };
@@ -63,7 +63,7 @@ export function SettingsPage() {
       await restoreDemoData();
       toast({ title: "Dados restaurados", description: "Os dados voltaram ao estado inicial.", variant: "success" });
     } catch (error) {
-      toast({ title: "NÃ£o foi possÃ­vel restaurar", description: getErrorMessage(error), variant: "error" });
+      toast({ title: "Não foi possível restaurar", description: getErrorMessage(error), variant: "error" });
     } finally {
       setResetting(false);
       setConfirmReset(false);
@@ -75,9 +75,9 @@ export function SettingsPage() {
     setSwitching(true);
     try {
       const next = await switchActiveUser(userId);
-      toast({ title: "Perfil alterado", description: `Agora vocÃª atua como ${next.name} (${next.role}).`, variant: "success" });
+      toast({ title: "Perfil alterado", description: `Agora você atua como ${next.name} (${next.role}).`, variant: "success" });
     } catch (error) {
-      toast({ title: "NÃ£o foi possÃ­vel trocar de perfil", description: getErrorMessage(error), variant: "error" });
+      toast({ title: "Não foi possível trocar de perfil", description: getErrorMessage(error), variant: "error" });
     } finally {
       setSwitching(false);
     }
@@ -91,12 +91,12 @@ export function SettingsPage() {
       setTestResults(results);
       const failed = results.filter((r) => !r.pass).length;
       toast({
-        title: failed === 0 ? "VerificaÃ§Ã£o concluÃ­da sem falhas" : `VerificaÃ§Ã£o concluÃ­da com ${failed} falha(s)`,
+        title: failed === 0 ? "Verificação concluída sem falhas" : `Verificação concluída com ${failed} falha(s)`,
         description: `${results.length} fluxos testados em ambiente isolado (seus dados foram preservados).`,
         variant: failed === 0 ? "success" : "error",
       });
     } catch (error) {
-      toast({ title: "Falha na verificaÃ§Ã£o", description: getErrorMessage(error), variant: "error" });
+      toast({ title: "Falha na verificação", description: getErrorMessage(error), variant: "error" });
     } finally {
       setTesting(false);
     }
@@ -105,17 +105,17 @@ export function SettingsPage() {
   return (
     <>
       <PageHeader
-        title="ConfiguraÃ§Ãµes"
-        description="Perfil de acesso, preferÃªncias, acessibilidade, dados locais e testes funcionais."
-        breadcrumbs={[{ label: "VisÃ£o geral", to: "/" }, { label: "ConfiguraÃ§Ãµes" }]}
+        title="Configurações"
+        description="Perfil de acesso, preferências, acessibilidade, dados locais e testes funcionais."
+        breadcrumbs={[{ label: "Visão geral", to: "/" }, { label: "Configurações" }]}
       />
 
       <div className="grid gap-4 xl:grid-cols-2">
         <Card>
-          <CardHeader title="Acessibilidade" description="Fonte, contraste, tema, animaÃ§Ãµes, alvos de toque, som e atalhos." icon={Accessibility} />
+          <CardHeader title="Acessibilidade" description="Fonte, contraste, tema, animações, alvos de toque, som e atalhos." icon={Accessibility} />
           <div className="space-y-4 p-5">
             <p className="text-sm text-slate-600">
-              As preferÃªncias sÃ£o aplicadas em toda a plataforma (estoque, produÃ§Ã£o, solicitaÃ§Ãµes e Mar.IA), salvas por usuÃ¡rio neste dispositivo e restaurÃ¡veis.
+              As preferências são aplicadas em toda a plataforma (estoque, produção, solicitações e Mar.IA), salvas por usuário neste dispositivo e restauráveis.
             </p>
             <div className="flex flex-wrap gap-2">
               <Button onClick={() => setA11yOpen(true)}>
@@ -127,20 +127,20 @@ export function SettingsPage() {
               </Button>
             </div>
             <p className="text-xs text-slate-500">
-              Atalhos gerais: <strong>?</strong> abre a lista de atalhos e <strong>/</strong> foca a busca. Ambos ignoram a digitaÃ§Ã£o em campos.
+              Atalhos gerais: <strong>?</strong> abre a lista de atalhos e <strong>/</strong> foca a busca. Ambos ignoram a digitação em campos.
             </p>
           </div>
         </Card>
 
         <Card>
-          <CardHeader title="Perfil de acesso" description="Troque de perfil para testar as permissÃµes de cada papel." icon={UserCog} />
+          <CardHeader title="Perfil de acesso" description="Troque de perfil para testar as permissões de cada papel." icon={UserCog} />
           <div className="space-y-4 p-5">
             <Select
               id="profile-switch"
               label="Atuar como"
               value={user.id}
               onChange={(e) => void handleSwitchUser(e.target.value)}
-              hint={`Papel atual: ${roleLabel(user.roleKey)}. A troca limpa operaÃ§Ãµes pendentes de desfazer.`}
+              hint={`Papel atual: ${roleLabel(user.roleKey)}. A troca limpa operações pendentes de desfazer.`}
             >
               {(users.length > 0 ? users : [user]).map((u) => (
                 <option key={u.id} value={u.id}>
@@ -151,7 +151,7 @@ export function SettingsPage() {
             {switching && <p className="text-sm text-slate-500">Trocando de perfilâ€¦</p>}
             <ul className="space-y-1.5 text-xs text-slate-600">
               <li>â€¢ <strong>Admin:</strong> tudo, incluindo desativar itens e reverter.</li>
-              <li>â€¢ <strong>Visualizador:</strong> somente leitura, sem ediÃ§Ãµes.</li>
+              <li>â€¢ <strong>Visualizador:</strong> somente leitura, sem edições.</li>
             </ul>
             <Button variant="outline" size="sm" onClick={() => void listUsers().then(() => toast({ title: "Perfis carregados", variant: "info" }))}>
               Recarregar perfis
@@ -160,7 +160,7 @@ export function SettingsPage() {
         </Card>
 
         <Card>
-          <CardHeader title="NotificaÃ§Ãµes" description="Escolha quais alertas aparecem no centro de notificaÃ§Ãµes." icon={Bell} />
+          <CardHeader title="Notificações" description="Escolha quais alertas aparecem no centro de notificações." icon={Bell} />
           <div className="divide-y divide-slate-100 px-5">
             {PREFERENCES.map((pref) => (
               <ToggleField
@@ -179,7 +179,7 @@ export function SettingsPage() {
           <CardHeader title="Acessibilidade e voz" description="Leitura em voz alta pela Web Speech API." icon={Accessibility} />
           <div className="space-y-4 p-5 text-sm text-slate-700">
             <p>
-              Use o Ã­cone de alto-falante no cabeÃ§alho para ler a pÃ¡gina atual. Nas respostas da Mar.IA, cada mensagem tem o prÃ³prio controle de leitura.
+              Use o ícone de alto-falante no cabeçalho para ler a página atual. Nas respostas da Mar.IA, cada mensagem tem o próprio controle de leitura.
             </p>
             {speech.supported ? (
               <div className="flex flex-wrap items-center gap-3">
@@ -194,7 +194,7 @@ export function SettingsPage() {
                 <Badge tone="success" icon={CheckCircle2}>Suportada neste navegador</Badge>
               </div>
             ) : (
-              <Badge tone="warning" icon={Info}>Leitura em voz alta nÃ£o suportada neste navegador</Badge>
+              <Badge tone="warning" icon={Info}>Leitura em voz alta não suportada neste navegador</Badge>
             )}
           </div>
         </Card>
@@ -203,7 +203,7 @@ export function SettingsPage() {
           <CardHeader title="Dados locais" description="Cache versionado no navegador." icon={Database} />
           <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-slate-600">
-              Suas alteraÃ§Ãµes persistem ao recarregar (cache <code className="rounded bg-slate-100 px-1 text-xs">mare:state:v2</code>).
+              Suas alterações persistem ao recarregar (cache <code className="rounded bg-slate-100 px-1 text-xs">mare:state:v2</code>).
             </p>
             <Button variant="outline" onClick={() => setConfirmReset(true)} className="shrink-0">
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -215,12 +215,12 @@ export function SettingsPage() {
         <Card>
           <CardHeader
             title="Testes funcionais"
-            description="Executa 14 fluxos completos em ambiente isolado. Seus dados sÃ£o preservados."
+            description="Executa 14 fluxos completos em ambiente isolado. Seus dados são preservados."
             icon={ClipboardCheck}
             actions={
               <Button onClick={handleRunTests} loading={testing} disabled={testing}>
                 <Play className="h-4 w-4" aria-hidden="true" />
-                {testing ? "Testandoâ€¦" : "Executar verificaÃ§Ã£o"}
+                {testing ? "Testandoâ€¦" : "Executar verificação"}
               </Button>
             }
           />
@@ -232,7 +232,7 @@ export function SettingsPage() {
               </p>
             )}
             {!testing && !testResults && (
-              <EmptyState title="Nenhuma verificaÃ§Ã£o executada" description='Clique em "Executar verificaÃ§Ã£o" para testar os fluxos crÃ­ticos do sistema.' />
+              <EmptyState title="Nenhuma verificação executada" description='Clique em "Executar verificação" para testar os fluxos críticos do sistema.' />
             )}
             {testResults && (
               <ol className="space-y-2">
@@ -260,7 +260,7 @@ export function SettingsPage() {
       </div>
 
       <Card className="mt-4">
-        <CardHeader title="Atalhos de teclado" description="Listagem completa, tambÃ©m disponÃ­vel pela tecla ?." icon={Accessibility} />
+        <CardHeader title="Atalhos de teclado" description="Listagem completa, também disponível pela tecla ?." icon={Accessibility} />
         <div className="p-5">
           <ShortcutsTable />
         </div>
@@ -272,7 +272,7 @@ export function SettingsPage() {
         open={shortcutsOpen}
         onClose={() => setShortcutsOpen(false)}
         title="Atalhos de teclado"
-        description="DisponÃ­veis em toda a plataforma, sem interferir na digitaÃ§Ã£o."
+        description="Disponíveis em toda a plataforma, sem interferir na digitação."
         size="md"
         footer={<Button onClick={() => setShortcutsOpen(false)}>Fechar</Button>}
       >
@@ -282,7 +282,7 @@ export function SettingsPage() {
       <ConfirmDialog
         open={confirmReset}
         title="Restaurar dados?"
-        description="Todas as alteraÃ§Ãµes feitas nesta sessÃ£o serÃ£o descartadas e os dados voltarÃ£o ao estado inicial."
+        description="Todas as alterações feitas nesta sessão serão descartadas e os dados voltarão ao estado inicial."
         confirmLabel="Restaurar dados"
         tone="danger"
         loading={resetting}

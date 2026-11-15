@@ -19,7 +19,7 @@ import { usePermissions } from "@/hooks/usePermissions";
 import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
-/* Itens de navegaÃ§Ã£o                                                  */
+/* Itens de navegação                                                  */
 /* ------------------------------------------------------------------ */
 
 type NavIcon = LucideIcon | ComponentType<{ className?: string }>;
@@ -33,20 +33,20 @@ interface NavItem {
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { to: "/",              label: "VisÃ£o geral",                 icon: LayoutDashboard, end: true },
-  { to: "/demandas",      label: "Demandas de produÃ§Ã£o",        icon: Factory },
-  { to: "/solicitacoes",  label: "SolicitaÃ§Ãµes de materiais",   icon: ClipboardList },
+  { to: "/",              label: "Visão geral",                 icon: LayoutDashboard, end: true },
+  { to: "/demandas",      label: "Demandas de produção",        icon: Factory },
+  { to: "/solicitacoes",  label: "Solicitações de materiais",   icon: ClipboardList },
   { to: "/estoque",       label: "Estoque",                     icon: Warehouse },
   { to: "/bom",           label: "Bill of Materials",           icon: Layers },
-  { to: "/separacao",     label: "SeparaÃ§Ã£o de materiais",      icon: PackageCheck },
+  { to: "/separacao",     label: "Separação de materiais",      icon: PackageCheck },
   { to: "/mar-ia",        label: "Mar.IA",                      icon: MarIAMark },
-  { to: "/relatorios",    label: "RelatÃ³rios e indicadores",    icon: BarChart3 },
-  { to: "/historico",     label: "HistÃ³rico e rastreabilidade", icon: History },
-  { to: "/configuracoes", label: "ConfiguraÃ§Ãµes",               icon: Settings, adminOnly: true },
+  { to: "/relatorios",    label: "Relatórios e indicadores",    icon: BarChart3 },
+  { to: "/historico",     label: "Histórico e rastreabilidade", icon: History },
+  { to: "/configuracoes", label: "Configurações",               icon: Settings, adminOnly: true },
 ];
 
 /* ------------------------------------------------------------------ */
-/* Hook: detecta desktop (â‰¥ 1024 px)                                  */
+/* Hook: detecta desktop (≥ 1024 px)                                  */
 /* ------------------------------------------------------------------ */
 
 function useIsDesktop(): boolean {
@@ -62,11 +62,10 @@ function useIsDesktop(): boolean {
 }
 
 /* ------------------------------------------------------------------ */
-/* Props pÃºblicas do componente                                        */
+/* Props públicas do componente                                        */
 /* ------------------------------------------------------------------ */
 
 interface SidebarProps {
-  /** Legado: controla recolhimento por botÃ£o (desktop) */
   collapsed: boolean;
   onToggleCollapsed: () => void;
   mobileOpen: boolean;
@@ -83,14 +82,13 @@ export function Sidebar({ collapsed, mobileOpen, onCloseMobile }: SidebarProps) 
   const isViewer = role === "leitura";
   const visibleItems = NAV_ITEMS.filter((item) => !(item.adminOnly && isViewer));
 
-  // hover-expand: sÃ³ no desktop
   const [hoverOpen, setHoverOpen] = useState(false);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // No desktop, a sidebar estÃ¡ "aberta" se nÃ£o estiver collapsed OU se o hover estiver ativo
   const isOpen = isDesktop ? (!collapsed || hoverOpen) : mobileOpen;
 
-  function handleMouseEnter() {    if (!isDesktop || !collapsed) return;
+  function handleMouseEnter() {
+    if (!isDesktop || !collapsed) return;
     hoverTimer.current = setTimeout(() => setHoverOpen(true), 80);
   }
 
@@ -100,7 +98,6 @@ export function Sidebar({ collapsed, mobileOpen, onCloseMobile }: SidebarProps) 
     setHoverOpen(false);
   }
 
-  // Fecha mobile ao pressionar Escape
   useEffect(() => {
     if (!mobileOpen) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onCloseMobile(); };
@@ -110,7 +107,6 @@ export function Sidebar({ collapsed, mobileOpen, onCloseMobile }: SidebarProps) 
 
   return (
     <>
-      {/* Overlay mobile */}
       {mobileOpen && (
         <div
           className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-[1px] lg:hidden"
@@ -119,7 +115,7 @@ export function Sidebar({ collapsed, mobileOpen, onCloseMobile }: SidebarProps) 
         />
       )}
 
-      {/* ---- DESKTOP: sidebar animada ---- */}
+      {/* DESKTOP */}
       <motion.aside
         aria-label="Menu principal"
         onMouseEnter={handleMouseEnter}
@@ -131,7 +127,7 @@ export function Sidebar({ collapsed, mobileOpen, onCloseMobile }: SidebarProps) 
         <DesktopSidebarContent isOpen={isOpen} visibleItems={visibleItems} />
       </motion.aside>
 
-      {/* ---- MOBILE: drawer deslizante ---- */}
+      {/* MOBILE */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.aside
@@ -152,7 +148,7 @@ export function Sidebar({ collapsed, mobileOpen, onCloseMobile }: SidebarProps) 
 }
 
 /* ------------------------------------------------------------------ */
-/* ConteÃºdo interno â€” desktop                                         */
+/* Conteúdo interno — desktop                                         */
 /* ------------------------------------------------------------------ */
 
 function DesktopSidebarContent({
@@ -164,7 +160,6 @@ function DesktopSidebarContent({
 }) {
   return (
     <>
-      {/* Logo */}
       <div className={cn(
         "flex h-16 shrink-0 items-center border-b border-white/10 px-4 overflow-hidden",
         !isOpen && "justify-center px-0",
@@ -172,22 +167,19 @@ function DesktopSidebarContent({
         <MareLogo collapsed={!isOpen} />
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-4" aria-label="NavegaÃ§Ã£o">
+      <nav className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-4" aria-label="Navegação">
         <ul className="space-y-0.5">
           {visibleItems.map((item) => (
             <NavItemRow key={item.to} item={item} isOpen={isOpen} />
           ))}
         </ul>
       </nav>
-
-
     </>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* ConteÃºdo interno â€” mobile                                          */
+/* Conteúdo interno — mobile                                          */
 /* ------------------------------------------------------------------ */
 
 function MobileSidebarContent({
@@ -211,7 +203,7 @@ function MobileSidebarContent({
         </button>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="NavegaÃ§Ã£o">
+      <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Navegação">
         <ul className="space-y-0.5">
           {visibleItems.map((item) => (
             <NavItemRow key={item.to} item={item} isOpen={true} />
@@ -223,7 +215,7 @@ function MobileSidebarContent({
 }
 
 /* ------------------------------------------------------------------ */
-/* Item de navegaÃ§Ã£o â€” com label animado                              */
+/* Item de navegação — com label animado                              */
 /* ------------------------------------------------------------------ */
 
 function NavItemRow({ item, isOpen }: { item: NavItem; isOpen: boolean }) {
@@ -246,7 +238,6 @@ function NavItemRow({ item, isOpen }: { item: NavItem; isOpen: boolean }) {
         }
       >
         <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />
-
         <AnimatePresence>
           {isOpen && (
             <motion.span

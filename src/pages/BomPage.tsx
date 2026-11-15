@@ -146,7 +146,7 @@ export function BomPage() {
       return;
     }
     if (form.items.some((i) => i.materialId === selectedMatId)) {
-      setItemError("Este material jÃ¡ foi adicionado.");
+      setItemError("Este material já foi adicionado.");
       return;
     }
     setForm((f) => ({ ...f, items: [...f.items, { materialId: selectedMatId, quantity: qty }] }));
@@ -164,7 +164,7 @@ export function BomPage() {
     if (!form.name.trim() || form.name.trim().length < 3)
       newErrors.name = "O nome deve ter pelo menos 3 caracteres.";
     if (!form.code.trim() || form.code.trim().length < 3)
-      newErrors.code = "O cÃ³digo deve ter pelo menos 3 caracteres.";
+      newErrors.code = "O código deve ter pelo menos 3 caracteres.";
     if (!form.productCategory) newErrors.productCategory = "Selecione a categoria do produto.";
     if (form.items.length === 0) newErrors.items = "Adicione ao menos um material ao BOM.";
 
@@ -207,7 +207,7 @@ export function BomPage() {
       await setBomTemplateActive(id, active);
       refetch();
     } catch {
-      toast({ title: "Erro", description: "NÃ£o foi possÃ­vel alterar o status.", variant: "error" });
+      toast({ title: "Erro", description: "Não foi possível alterar o status.", variant: "error" });
     }
   }
 
@@ -229,8 +229,8 @@ export function BomPage() {
 
       <PageHeader
         title="Bill of Materials"
-        description="Defina a composiÃ§Ã£o (receita) de cada produto acabado: materiais, quantidades e custo estimado."
-        breadcrumbs={[{ label: "VisÃ£o geral", to: "/" }, { label: "Bill of Materials" }]}
+        description="Defina a composição (receita) de cada produto acabado: materiais, quantidades e custo estimado."
+        breadcrumbs={[{ label: "Visão geral", to: "/" }, { label: "Bill of Materials" }]}
         actions={
           <Button onClick={openNew}>
             <Plus className="h-4 w-4" aria-hidden="true" />
@@ -249,10 +249,10 @@ export function BomPage() {
               value={data.filter((t) => t.active).length}
               icon={Layers}
               tone="primary"
-              hint="Templates em uso na produÃ§Ã£o"
+              hint="Templates em uso na produção"
             />
             <KpiCard
-              label="ProduzÃ­veis agora"
+              label="Produzíveis agora"
               value={data.filter((t) => t.active && t.fullyAvailable).length}
               icon={CheckCircle2}
               tone="success"
@@ -266,7 +266,7 @@ export function BomPage() {
               hint="Falta ao menos um material no saldo"
             />
             <KpiCard
-              label="Custo mÃ©dio por produto"
+              label="Custo médio por produto"
               value={(() => {
                 const ativos = data.filter((t) => t.active && t.estimatedCost > 0);
                 if (ativos.length === 0) return "â€”";
@@ -275,7 +275,7 @@ export function BomPage() {
               })()}
               icon={TrendingUp}
               tone="info"
-              hint="MÃ©dia dos templates ativos com preÃ§o"
+              hint="Média dos templates ativos com preço"
             />
           </div>
         </section>
@@ -306,8 +306,8 @@ export function BomPage() {
         </div>
       )}
 
-      {/* Abas â€” "Novo/Editar template" sÃ³ aparece quando o formulÃ¡rio estÃ¡ aberto */}
-      <div role="group" aria-label="VisÃµes do BOM" className="mb-4 flex gap-2">
+      {/* Abas â€” "Novo/Editar template" só aparece quando o formulário está aberto */}
+      <div role="group" aria-label="Visões do BOM" className="mb-4 flex gap-2">
         <button
           type="button"
           aria-pressed={tab === "templates"}
@@ -349,7 +349,7 @@ export function BomPage() {
                 type="search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Pesquisar por cÃ³digo, nome ou categoria"
+                placeholder="Pesquisar por código, nome ou categoria"
                 className="block w-full rounded-md border border-slate-300 bg-white py-2.5 pl-9 pr-3 text-sm placeholder:text-slate-400 focus:border-navy-700 focus:outline-none focus:ring-1 focus:ring-navy-700"
               />
             </div>
@@ -361,7 +361,7 @@ export function BomPage() {
             <EmptyState
               icon={Layers}
               title="Nenhum template cadastrado"
-              description="Crie o primeiro template de composiÃ§Ã£o de produto."
+              description="Crie o primeiro template de composição de produto."
               action={
                 <Button onClick={openNew}>
                   <Plus className="h-4 w-4" aria-hidden="true" />
@@ -396,15 +396,15 @@ export function BomPage() {
                   <caption className="sr-only">Templates de Bill of Materials</caption>
                   <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
                     <tr>
-                      <th scope="col" className="px-4 py-3 font-semibold">CÃ³digo</th>
+                      <th scope="col" className="px-4 py-3 font-semibold">Código</th>
                       <th scope="col" className="px-4 py-3 font-semibold">Nome</th>
                       <th scope="col" className="px-4 py-3 font-semibold">Categoria</th>
                       <th scope="col" className="px-4 py-3 text-center font-semibold">Itens</th>
                       <th scope="col" className="px-4 py-3 text-right font-semibold">Custo estimado</th>
-                      <th scope="col" className="px-4 py-3 text-center font-semibold">ProduzÃ­vel</th>
+                      <th scope="col" className="px-4 py-3 text-center font-semibold">Produzível</th>
                       <th scope="col" className="px-4 py-3 font-semibold">Disponibilidade</th>
                       <th scope="col" className="px-4 py-3 font-semibold">Ativo</th>
-                      <th scope="col" className="px-4 py-3 font-semibold">AÃ§Ãµes</th>
+                      <th scope="col" className="px-4 py-3 font-semibold">Ações</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -439,7 +439,7 @@ export function BomPage() {
                         <p className="text-xs text-slate-500">{t.productCategory}</p>
                       </div>
                       <Badge tone={t.fullyAvailable ? "success" : "danger"}>
-                        {t.fullyAvailable ? "DisponÃ­vel" : "IndisponÃ­vel"}
+                        {t.fullyAvailable ? "Disponível" : "Indisponível"}
                       </Badge>
                     </div>
                     <dl className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-500">
@@ -500,9 +500,9 @@ export function BomPage() {
                       <th scope="col" className="px-4 py-3 text-right font-semibold">Qtd</th>
                       <th scope="col" className="px-4 py-3 font-semibold">Unidade</th>
                       <th scope="col" className="px-4 py-3 text-right font-semibold">Saldo atual</th>
-                      <th scope="col" className="px-4 py-3 text-right font-semibold">ProduzÃ­vel</th>
+                      <th scope="col" className="px-4 py-3 text-right font-semibold">Produzível</th>
                       <th scope="col" className="px-4 py-3 text-right font-semibold">Custo item</th>
-                      <th scope="col" className="px-4 py-3 font-semibold">DisponÃ­vel</th>
+                      <th scope="col" className="px-4 py-3 font-semibold">Disponível</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -529,11 +529,11 @@ export function BomPage() {
                         <td className="px-4 py-3 text-right tabular-nums">
                           {iv.hasCost
                             ? iv.itemCost.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
-                            : <span className="inline-flex items-center gap-1 text-xs text-amber-700" title="Cadastre o preÃ§o no estoque"><AlertTriangle className="h-3 w-3" aria-hidden="true" />Sem preÃ§o</span>}
+                            : <span className="inline-flex items-center gap-1 text-xs text-amber-700" title="Cadastre o preço no estoque"><AlertTriangle className="h-3 w-3" aria-hidden="true" />Sem preço</span>}
                         </td>
                         <td className="px-4 py-3">
                           <Badge tone={iv.available1 ? "success" : "danger"}>
-                            {iv.available1 ? "Sim" : "NÃ£o"}
+                            {iv.available1 ? "Sim" : "Não"}
                           </Badge>
                         </td>
                       </tr>
@@ -545,7 +545,7 @@ export function BomPage() {
                         Custo total estimado (1 unidade)
                         {detailTemplate.hasMissingCost && (
                           <span className="ml-2 text-xs font-normal text-amber-700">
-                            (parcial â€” alguns materiais sem preÃ§o)
+                            (parcial â€” alguns materiais sem preço)
                           </span>
                         )}
                       </td>
@@ -556,7 +556,7 @@ export function BomPage() {
                       </td>
                       <td className="px-4 py-3">
                         <Badge tone={detailTemplate.fullyAvailable ? "success" : "danger"}>
-                          {detailTemplate.fullyAvailable ? "DisponÃ­vel" : "IndisponÃ­vel"}
+                          {detailTemplate.fullyAvailable ? "Disponível" : "Indisponível"}
                         </Badge>
                       </td>
                     </tr>
@@ -576,7 +576,7 @@ export function BomPage() {
           <CardHeader
             icon={Layers}
             title={editId ? "Editar template BOM" : "Novo template BOM"}
-            description="Preencha os dados do template e adicione os materiais que compÃµem o produto."
+            description="Preencha os dados do template e adicione os materiais que compõem o produto."
           />
           <div className="space-y-5 p-4 lg:p-5">
             {/* Linha 1: Nome */}
@@ -587,13 +587,13 @@ export function BomPage() {
               value={form.name}
               onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
               error={errors.name}
-              placeholder="Ex.: Coleira AjustÃ¡vel P"
+              placeholder="Ex.: Coleira Ajustável P"
             />
 
-            {/* Linha 2: CÃ³digo + botÃ£o sugerir */}
+            {/* Linha 2: Código + botão sugerir */}
             <div>
               <label htmlFor="bom-code" className="mb-1.5 block text-sm font-medium text-slate-700">
-                CÃ³digo
+                Código
                 <span className="ml-0.5 text-rose-600" aria-hidden="true">*</span>
               </label>
               <div className="flex gap-2">
@@ -616,7 +616,7 @@ export function BomPage() {
               </div>
               {!errors.code && (
                 <p id="bom-code-hint" className="mt-1 text-xs text-slate-500">
-                  Sugerido automaticamente â€” edite se necessÃ¡rio.
+                  Sugerido automaticamente â€” edite se necessário.
                 </p>
               )}
               {errors.code && (
@@ -626,14 +626,14 @@ export function BomPage() {
               )}
             </div>
 
-            {/* Linha 3: DescriÃ§Ã£o */}
+            {/* Linha 3: Descrição */}
             <Textarea
               id="bom-description"
-              label="DescriÃ§Ã£o"
+              label="Descrição"
               value={form.description}
               onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
               error={errors.description}
-              placeholder="DescriÃ§Ã£o opcional do produto acabado"
+              placeholder="Descrição opcional do produto acabado"
               rows={2}
             />
 
@@ -656,12 +656,12 @@ export function BomPage() {
             <ToggleField
               id="bom-active"
               label="Template ativo"
-              description="Templates inativos nÃ£o aparecem nas seleÃ§Ãµes de produÃ§Ã£o."
+              description="Templates inativos não aparecem nas seleções de produção."
               checked={form.active}
               onChange={(v) => setForm((f) => ({ ...f, active: v }))}
             />
 
-            {/* SeÃ§Ã£o de itens */}
+            {/* Seção de itens */}
             <div>
               <h3 className="mb-3 text-sm font-semibold text-slate-800">Itens do BOM</h3>
 
@@ -681,10 +681,10 @@ export function BomPage() {
                         setMatSearch(e.target.value);
                         setSelectedMatId("");
                       }}
-                      placeholder="Pesquisar por cÃ³digo ou nome"
+                      placeholder="Pesquisar por código ou nome"
                       className="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:border-navy-700 focus:outline-none focus:ring-1 focus:ring-navy-700"
                     />
-                    {/* Dropdown de sugestÃµes */}
+                    {/* Dropdown de sugestões */}
                     {matSearch && !selectedMatId && filteredMats.length > 0 && (
                       <ul className="mt-1 max-h-48 overflow-y-auto rounded-md border border-slate-200 bg-white shadow-md">
                         {filteredMats.map((m) => (
@@ -781,13 +781,13 @@ export function BomPage() {
               )}
             </div>
 
-            {/* BotÃµes */}
+            {/* Botões */}
             <div className="flex flex-wrap justify-end gap-3 border-t border-slate-100 pt-4">
               <Button variant="outline" onClick={cancelForm} disabled={saving}>
                 Cancelar
               </Button>
               <Button onClick={handleSubmit} loading={saving}>
-                {editId ? "Salvar alteraÃ§Ãµes" : "Salvar template"}
+                {editId ? "Salvar alterações" : "Salvar template"}
               </Button>
             </div>
           </div>
@@ -828,10 +828,10 @@ function BomRow({
         {t.hasMissingCost ? (
           <span className="inline-flex items-center gap-1 text-amber-700">
             <AlertTriangle className="h-3.5 w-3.5" aria-hidden="true" />
-            <span title="Algum material nÃ£o tem preÃ§o cadastrado">
+            <span title="Algum material não tem preço cadastrado">
               {t.estimatedCost > 0
                 ? `â‰¥ ${t.estimatedCost.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`
-                : "Sem preÃ§o"}
+                : "Sem preço"}
             </span>
           </span>
         ) : (
@@ -847,7 +847,7 @@ function BomRow({
       </td>
       <td className="px-4 py-3">
         <Badge tone={t.fullyAvailable ? "success" : "danger"}>
-          {t.fullyAvailable ? "DisponÃ­vel" : "IndisponÃ­vel"}
+          {t.fullyAvailable ? "Disponível" : "Indisponível"}
         </Badge>
       </td>
       <td className="px-4 py-3">

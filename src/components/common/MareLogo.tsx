@@ -24,7 +24,7 @@ export function MareIcon({ className }: { className?: string }) {
     >
       {/* Usa o SVG inline recortado — viewBox aponta só para o M (primeiros ~380px de 1536) */}
       <svg
-        viewBox="130 200 380 220"
+        viewBox="80 190 420 240"
         className="h-9 w-9"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"

@@ -14,24 +14,29 @@ export function MareMark({ className }: { className?: string }) {
   );
 }
 
-/** Ícone compacto — usado quando a sidebar está recolhida (só o M). */
+/** Ícone compacto — corta o SVG original para mostrar só o "M" da logo. */
 export function MareIcon({ className }: { className?: string }) {
   return (
     <div
-      className={cn(
-        "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl overflow-hidden bg-transparent",
-        className,
-      )}
+      className={cn("flex h-10 w-10 shrink-0 items-center justify-center", className)}
       aria-label="Maré"
       role="img"
     >
-      <img
-        src={logoSvg}
-        alt=""
+      {/* Usa o SVG inline recortado — viewBox aponta só para o M (primeiros ~380px de 1536) */}
+      <svg
+        viewBox="130 200 380 220"
+        className="h-9 w-9"
+        xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
-        className="h-12 w-auto object-contain scale-[2.4] translate-x-[-28%]"
-        draggable={false}
-      />
+      >
+        <image
+          href={logoSvg}
+          x="0"
+          y="0"
+          width="1536"
+          height="614"
+        />
+      </svg>
     </div>
   );
 }
